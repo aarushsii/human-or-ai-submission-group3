@@ -1,0 +1,1 @@
+{"model": "tfidf_logreg", "timestamp": "2026-11-01T14:42:26", "random_fold_auroc": 0.9506, "ood_fold_auroc": 0.9359}
