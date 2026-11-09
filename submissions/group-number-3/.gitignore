@@ -11,3 +11,9 @@ __pycache__/
 
 # Small Person B experiment tables and predictions are reproducibility artifacts.
 !results/person_b*/*.csv
+
+# Required Person B additions to the team's existing result files.
+!results/learning_curve_required.csv
+!results/pseudo_label_report.csv
+!results/pseudo_label_control_predictions.csv
+!results/pseudo_label_teacher_predictions.csv
