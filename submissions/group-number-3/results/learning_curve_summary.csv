@@ -1,0 +1,13 @@
+,,train_auroc,train_auroc,val_auroc,val_auroc
+,,mean,std,mean,std
+model,n_train,,,,
+style_gbm,500,1.0,0.0,0.9775,0.0017
+style_gbm,1000,1.0,0.0,0.9851,0.0015
+style_gbm,2000,1.0,0.0,0.99,0.0009
+style_gbm,5000,1.0,0.0,0.9936,0.0004
+style_gbm,8000,1.0,0.0,0.9945,0.0
+tfidf_logreg,500,1.0,0.0,0.8699,0.0073
+tfidf_logreg,1000,1.0,0.0,0.8968,0.0029
+tfidf_logreg,2000,1.0,0.0,0.9243,0.0014
+tfidf_logreg,5000,1.0,0.0,0.9433,0.0012
+tfidf_logreg,8000,1.0,0.0,0.9506,0.0
