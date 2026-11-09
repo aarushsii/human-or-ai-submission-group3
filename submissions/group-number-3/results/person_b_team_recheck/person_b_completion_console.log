@@ -1,0 +1,87 @@
+tfidf_logreg   n=250   seed=0 train=1.000000 val=0.800053
+tfidf_logreg   n=250   seed=1 train=1.000000 val=0.790002
+tfidf_logreg   n=250   seed=2 train=1.000000 val=0.839600
+tfidf_logreg   n=500   seed=0 train=1.000000 val=0.875309
+tfidf_logreg   n=500   seed=1 train=1.000000 val=0.861572
+tfidf_logreg   n=500   seed=2 train=1.000000 val=0.872953
+tfidf_logreg   n=1000  seed=0 train=1.000000 val=0.900219
+tfidf_logreg   n=1000  seed=1 train=1.000000 val=0.894967
+tfidf_logreg   n=1000  seed=2 train=1.000000 val=0.895308
+tfidf_logreg   n=2000  seed=0 train=1.000000 val=0.925603
+tfidf_logreg   n=2000  seed=1 train=1.000000 val=0.924520
+tfidf_logreg   n=2000  seed=2 train=1.000000 val=0.922843
+tfidf_logreg   n=4000  seed=0 train=1.000000 val=0.940360
+tfidf_logreg   n=4000  seed=1 train=1.000000 val=0.939854
+tfidf_logreg   n=4000  seed=2 train=1.000000 val=0.940632
+tfidf_logreg   n=5000  seed=0 train=1.000000 val=0.943963
+tfidf_logreg   n=5000  seed=1 train=1.000000 val=0.941939
+tfidf_logreg   n=5000  seed=2 train=1.000000 val=0.943915
+tfidf_logreg   n=8000  seed=0 train=1.000000 val=0.950644
+/Users/fengyuchen/Documents/Codex/cornell 26fall/aml学习路径/Kaggle_Group3_Competition/.venv/lib/python3.14/site-packages/joblib/externals/loky/backend/context.py:134: UserWarning: Could not find the number of physical cores for the following reason:
+invalid literal for int() with base 10: ''
+Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+  warnings.warn(
+  File "/Users/fengyuchen/Documents/Codex/cornell 26fall/aml学习路径/Kaggle_Group3_Competition/.venv/lib/python3.14/site-packages/joblib/externals/loky/backend/context.py", line 264, in _count_physical_cores
+    cpu_count_physical = _count_physical_cores_darwin()
+  File "/Users/fengyuchen/Documents/Codex/cornell 26fall/aml学习路径/Kaggle_Group3_Competition/.venv/lib/python3.14/site-packages/joblib/externals/loky/backend/context.py", line 420, in _count_physical_cores_darwin
+    return int(cpu_info)
+style_gbm      n=250   seed=0 train=1.000000 val=0.956912
+style_gbm      n=250   seed=1 train=1.000000 val=0.952889
+style_gbm      n=250   seed=2 train=1.000000 val=0.963433
+style_gbm      n=500   seed=0 train=1.000000 val=0.977760
+style_gbm      n=500   seed=1 train=1.000000 val=0.975000
+style_gbm      n=500   seed=2 train=1.000000 val=0.980724
+style_gbm      n=1000  seed=0 train=1.000000 val=0.984704
+style_gbm      n=1000  seed=1 train=1.000000 val=0.986986
+style_gbm      n=1000  seed=2 train=1.000000 val=0.985819
+style_gbm      n=2000  seed=0 train=1.000000 val=0.988876
+style_gbm      n=2000  seed=1 train=1.000000 val=0.990976
+style_gbm      n=2000  seed=2 train=1.000000 val=0.990067
+style_gbm      n=4000  seed=0 train=1.000000 val=0.992579
+style_gbm      n=4000  seed=1 train=1.000000 val=0.992606
+style_gbm      n=4000  seed=2 train=1.000000 val=0.993107
+style_gbm      n=5000  seed=0 train=1.000000 val=0.993260
+style_gbm      n=5000  seed=1 train=1.000000 val=0.993173
+style_gbm      n=5000  seed=2 train=1.000000 val=0.994205
+style_gbm      n=8000  seed=0 train=1.000000 val=0.993846
+
+                         mean     std
+model        n_train
+style_gbm    250      0.9577  0.0053
+             500      0.9778  0.0029
+             1000     0.9858  0.0011
+             2000     0.9900  0.0011
+             4000     0.9928  0.0003
+             5000     0.9935  0.0006
+             8000     0.9938  0.0000
+tfidf_logreg 250      0.8099  0.0262
+             500      0.8699  0.0073
+             1000     0.8968  0.0029
+             2000     0.9243  0.0014
+             4000     0.9403  0.0004
+             5000     0.9433  0.0012
+             8000     0.9506  0.0000
+Saved learning curves and required train/validation table in /Users/fengyuchen/Documents/Codex/cornell 26fall/aml学习路径/Kaggle_Group3_Competition/submissions/group-number-3/results
+Control (8,000 labeled rows only): val AUROC = 0.950644
+
+teacher=self       t=0.99  added=  81 (82.7% AI)  val AUROC = 0.9506  (+0.0000 vs control)
+teacher=self       t=0.95  added= 628 (60.7% AI)  val AUROC = 0.9501  (-0.0005 vs control)
+teacher=self       t=0.9   added=1114 (53.5% AI)  val AUROC = 0.9501  (-0.0006 vs control)
+teacher=style_gbm  t=0.99  added=2093 (49.5% AI)  val AUROC = 0.9525  (+0.0019 vs control)
+teacher=style_gbm  t=0.95  added=2609 (48.0% AI)  val AUROC = 0.9544  (+0.0037 vs control)
+teacher=style_gbm  t=0.9   added=2718 (48.2% AI)  val AUROC = 0.9536  (+0.0030 vs control)
+
+Saved /Users/fengyuchen/Documents/Codex/cornell 26fall/aml学习路径/Kaggle_Group3_Competition/submissions/group-number-3/results/pseudo_label.csv
+{
+  "checks": {
+    "all_inputs_unchanged": true,
+    "both_models_have_5000_training_rows": true,
+    "training_and_validation_scores_present": true,
+    "all_38_learning_curve_fits_present": true,
+    "all_seven_existing_pseudo_settings_present": true,
+    "existing_learning_curve_points_preserved": false,
+    "existing_rounded_pseudo_results_reproduced": false
+  },
+  "all_passed": false
+}
+Inspect the preserved results before publication.
