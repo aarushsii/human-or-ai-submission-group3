@@ -1,58 +1,58 @@
-# Person B report: Q2 and Q3
+# Person B: completed Q2 and Q3
 
-Yuchen Feng (yf467), Group Number 3. Local report text prepared for team integration on November 9, 2026. This file does not claim the full team report, final model selection or course submission is complete.
+**Primary work:** Aarushi's experiments in team commit `0e09450`. **Completion:** Yuchen Feng (`yf467`), with Codex assistance, extended the existing code, filled missing rubric items, checked results and prepared this report. The original experiments retain Aarushi's attribution.
 
-## Q2.1: fixed-model experiment and observed results
+## Q2.1 — fixed configuration and required results
 
-We used the team's word (1-2 grams) and char_wb (3-5 grams) TF-IDF logistic regression. The classifier uses C=4 and at most 2,000 iterations. Seed 42 defines nested, balanced subsets of the shared 8,000-row training pool. Each TF-IDF transform is fitted only on its current subset. All sizes use the same 2,000 validation rows. The full-pool point reuses the baseline fit.
+We extended Aarushi's existing TF-IDF logistic regression study, keeping C=4, at most 2,000 iterations, the shared 8,000/2,000 split, stratified subsampling and seeds 0, 1 and 2. We added the required 5,000-row point and training AUROC. Values below are means across three subsets, except the complete 8,000-row pool, which is fitted once. Each vocabulary and IDF is fitted on its own training subset only. The submitted style-model curves remain supplementary reference results.
 
-| Training rows | Training AUROC | Validation AUROC |
-|---:|---:|---:|
-| 500 | 1.000000 | 0.872922 |
-| 1,000 | 1.000000 | 0.906055 |
-| 2,000 | 1.000000 | 0.922570 |
-| 5,000 | 1.000000 | 0.944931 |
-| 8,000 | 1.000000 | 0.950644 |
+| Training rows | Mean training AUROC | Mean validation AUROC | Validation sample SD | Fits |
+|---:|---:|---:|---:|---:|
+| 500 | 1.000000 | 0.869945 | 0.007346 | 3 |
+| 1,000 | 1.000000 | 0.896831 | 0.002939 | 3 |
+| 2,000 | 1.000000 | 0.924322 | 0.001391 | 3 |
+| 5,000 | 1.000000 | 0.943272 | 0.001155 | 3 |
+| 8,000 | 1.000000 | 0.950644 | 0.000000 | 1 |
 
-Scores are rounded to six decimals. The unrounded 8,000-row training AUROC is 0.999999875. AUROC evaluates ranking and does not imply perfect classification at a fixed threshold. The 2,000-row learning subset is sampled from the shared training pool; it is not a substitute use of train_starter_2000.csv.
+The full-pool training value before rounding is 0.999999875. SD reflects the three subsampling seeds, not uncertainty across validation sets. At 8,000 rows the displayed zero SD indicates only one distinct fit, not measured zero uncertainty. Source: `../results/learning_curve_required.csv`; all runs and unchanged original style points: `../results/learning_curve.csv`.
 
-## Q2.2: learning curves
+## Q2.2 — training and validation learning curves
 
-![Training and validation AUROC versus labeled training-set size](person_b_learning_curve.png)
+![TF-IDF training and validation AUROC, means and sample SD](person_b_learning_curve.png)
 
-Figure: the same configuration and validation IDs are used throughout. The training curve remains near 1, while validation AUROC improves with diminishing gains at larger sample sizes.
+The required five-point plot is `../results/learning_curve_train_val.png`. Aarushi's two-model validation plot is retained and extended in `../results/learning_curve.png`. The original 32 validation points are preserved; only three TF-IDF 5,000-row fits are added. Training AUROC is available for the TF-IDF fits; original style-model training values are left unavailable rather than paired with a different local run.
 
-## Q2.3: discussion (119 words)
+## Q2.3 — discussion (115 words)
 
-Training AUROC stays essentially 1.0000 at every training size, whereas validation AUROC rises from 0.8729 with 500 examples to 0.9506 with 8,000. This gap suggests overfitting, especially with limited labels, rather than an inability to fit the training data. Increasing the labeled sample size reduces the gap from about 0.1271 to 0.0494 and improves generalization on the fixed validation set. Returns diminish: the first 500 additional examples improve validation AUROC by 0.0331, while increasing from 5,000 to 8,000 adds only 0.0057. More labels may still help, but the curve does not establish performance beyond 8,000 examples. These findings concern one sampling seed and one validation split; further repetitions would be needed to assess variability and performance under distribution shift.
+Training AUROC remains essentially 1.0000 across all five training sizes, while mean validation AUROC increases from 0.8699 with 500 examples to 0.9506 with 8,000. This persistent gap suggests overfitting rather than clear underfitting. More labeled data reduces the gap and improves generalization on the fixed validation set. Gains diminish: increasing from 500 to 1,000 examples adds about 0.0269 AUROC, whereas adding 3,000 examples between 5,000 and 8,000 adds about 0.0074. Variation across the three sampling seeds is larger at small sizes. At 8,000, all seeds would use the same complete pool, so only one fit is reported. The trend supports more labels but does not establish performance beyond 8,000 or guarantee robustness under distribution shift.
 
-## Q3.1: method and validation-label isolation (100 words)
+## Q3.1 — method and validation isolation (94 words)
 
-We performed one round of confidence-filtered self-training using the fixed random split. First, the unchanged TF-IDF plus logistic regression baseline was trained on 8,000 labeled examples. It predicted AI probabilities for all 3,000 official unlabeled texts. Before evaluating self-training, we fixed acceptance thresholds at 0.05 and 0.95. We retained 247 pseudo-human and 381 pseudo-AI examples, froze the baseline vocabulary and IDF weights, and refitted only logistic regression on the combined 8,628 rows with equal sample weights. The same 2,000 validation examples were used only for scoring. Their texts never entered fitting, and their labels never determined pseudo-labels or threshold choices.
+We used Aarushi's teacher-student pseudo-labeling method. A gradient boosting teacher on stylometric features and a TF-IDF logistic regression control were trained on the same 8,000 labeled examples. The teacher assigned labels to unlabeled passages when p(AI) was at least 0.95 or at most 0.05, retaining 2,612 examples. We then refitted the entire TF-IDF student, including vocabulary and IDF, on the augmented training set. Both models were scored on the unchanged 2,000-example validation set. Validation labels never entered fitting or pseudo-label generation. Three thresholds were explored on this fold; selecting 0.95 therefore provides exploratory evidence.
 
-## Q3.2: supervised comparison
+## Q3.2 — primary submitted comparison
 
-| Method | True labeled rows | Pseudo-labeled rows | Validation AUROC |
+| Method | Labeled training rows | Pseudo-labeled rows | Validation AUROC |
 |---|---:|---:|---:|
-| Supervised only | 8,000 | 0 | 0.950644 |
-| With unlabeled data | 8,000 | 628 | 0.950170 |
+| Supervised TF-IDF LR (Aarushi) | 8,000 | 0 | 0.9506 |
+| Style-teacher pseudo-labeling (Aarushi, threshold 0.95) | 8,000 | 2,612 | 0.9537 |
 
-Change: -0.000474. Selection retained 247 pseudo-human and 381 pseudo-AI rows; the other 2,372 unlabeled rows were excluded. The fixed TF-IDF representation passed the before/after semantic fingerprint check. No validation labels determined pseudo-labels, thresholds or training weights.
+Source: Aarushi's unchanged `../results/pseudo_label.csv`; the two report rows are also in `../results/pseudo_label_report.csv`. Scores in the submitted table are available to four decimals; no extra precision is invented. The full six teacher/threshold combinations remain visible in the original table. Student TF-IDF is refitted on augmented texts; this is different from the earlier fixed-feature supplementary experiment.
 
-## Q3.3: discussion (101 words)
+## Q3.3 — discussion (98 words)
 
-Adding pseudo-labeled data changed validation AUROC from 0.950644 to 0.950170, a decrease of 0.000474. Thus, this fixed self-training configuration did not improve the supervised baseline on the shared validation set. Confidence filtering retained only 628 of 3,000 unlabeled examples, so most extra texts contributed no training signal. Incorrect confident predictions could reinforce existing mistakes, while selecting easy examples may provide little new information. We cannot measure pseudo-label accuracy because their true labels are unavailable. The small decrease on one split does not establish a reliable harmful effect or rule out other semi-supervised methods. We retain the supervised baseline as the reference.
+Aarushi's style-teacher run improved validation AUROC from 0.9506 to 0.9537, approximately 0.0031. Self-training did not improve the control. A teacher with different features may contribute information the TF-IDF student misses. However, confidence does not guarantee correct labels, and the style model is sensitive to formatting artifacts. This setting was selected after comparing two teachers and three thresholds on the same validation fold, so its gain is exploratory. Our local repetition gave the same improvement direction but different style scores. We retain the original results as primary evidence and report the repetition separately, without claiming a statistically reliable benefit.
 
-## Reproducibility and evidence
+## Local replication and reproducibility
 
-The original data came from the teacher-linked [official competition](https://www.kaggle.com/competitions/cornell-tech-cs-5785-combined-2026-ai-vs-human-text/data). Original CSV and shared split hashes, full parameters, dependencies, source hashes and validation-ID fingerprints are in `../results/person_b/run_manifest.json` and the data audit. Primary experiment source: bb8eaf5f8811755b3cc3f3c19b8eaaf6944c10de. Original model baseline: c7be9f30ac94e34573a9057d429c77f91d52ad6d.
+The teacher-linked official files and original shared split passed SHA256 checks before and after fitting. No split was regenerated, no validation texts/labels entered model fitting, no hidden labels or external LLM predictions were used, and no Kaggle submission was made. Commands are in `../PERSON_B_RUNBOOK.md`.
 
-A clean-checkout reproduction and a separate integration run with team update 0e09450 both reproduced the saved probabilities exactly. Each comparison passed 51 checks. This validates this Mac and the installed environment; a fresh dependency installation and other platforms were not tested. Commands and the comparison tool are documented in `../PERSON_B_RUNBOOK.md`.
+All original TF-IDF learning-curve points reproduced exactly. A full local repetition of both learning-curve models and all seven pseudo-label rows is preserved in `../results/person_b_team_recheck/`. The style teacher at 0.95 selected 2,609 rows locally and achieved 0.954365 versus 0.950644. This differs from Aarushi's 2,612 / 0.9537 and is not substituted into her table. The cause of the small style differences was not isolated; her exact original environment was not recorded. Both observations are exploratory evaluations on the same validation fold.
 
-## Integration with Aarushi's November 9 update
+Earlier seed-42 nested-subset and fixed-feature self-training results under `../results/person_b/` are supplementary historical experiments, not the primary report above. Their real scores and failed-check history are retained. The chosen primary Q2 now uses Aarushi's three seeds; do not mix its means with the earlier single-seed values.
 
-Aarushi's `results/learning_curve.csv` adds two models, three seeds and 250/4,000-row points. It does not contain the required 5,000-row point or training AUROC. The five-row table and training-versus-validation figure above supply those required Q2 items; her multi-seed curves can be supplementary evidence. Values at smaller sizes differ because the sampling seeds and subset construction differ.
+## Contribution and AI use
 
-Her `results/pseudo_label.csv` includes self-training and a style-GBM teacher, each at three thresholds. Her student refits TF-IDF on augmented texts; the controlled study above freezes the labeled-only representation. Her 0.95 self-training result is therefore a separate experiment from our 0.950170 result. Her best teacher-student value is 0.9537 versus a rounded 0.9506 control, an exploratory result selected among several settings. Attribute that extension to Aarushi and disclose selection on the shared validation set. It is not a new independent confirmation of improvement and is not evidence that the fixed-feature study improved.
+Aarushi supplied the original model, sampling protocol, style features, teacher-student study and reference results. Yuchen's completion adds the required 5,000-row TF-IDF experiment, training scores, the train/validation plot, report responses, shared-split tracking and reproducibility material. Codex substantially assisted with coding, execution, debugging, checks and writing. Human-specific verification should describe only what each author actually reviewed. No assertion of manual line-by-line review is made.
 
-The fixed model used for Q2/Q3 need not be the final Kaggle model. The team should state that distinction and agree on the final selection. See `TEAM_UPDATE_REVIEW_ZH.md` for the reviewed scope and remaining group decisions.
+Overleaf has not been edited. This package provides the completed Person B text/figures for later insertion; the full team report, final model, course PR and final Kaggle selection remain group tasks.

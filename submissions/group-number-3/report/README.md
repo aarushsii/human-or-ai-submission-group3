@@ -1,14 +1,11 @@
-# Person B report integration package
+# Person B completion package
 
-- `PERSON_B_REPORT_EN.md`: full Q2.1–Q2.3 and Q3.1–Q3.3 text, tables, method and integration notes.
-- `person_b_q2_q3.tex`: section block to replace the existing Q2/Q3 placeholder sections in the actual team template.
-- `person_b_learning_curve.png`: compact, readable report rendering of the checked primary CSV. Rebuild from repository root with `.venv/bin/python submissions/group-number-3/report/build_person_b_figure.py`.
-- `PERSON_B_Q2_Q3_REPORT.tex`: standalone wrapper used to compile and visually check these sections locally. It is not the full team report.
-- `PERSON_B_CONTRIBUTION_AND_AI.md`: contribution, AI-use and development-history material; human-specific verification remains for the author to state accurately.
-- `PERSON_B_NOTES_ZH.md`: plain Chinese explanation of the experiments and their limits.
-- `TEAM_UPDATE_REVIEW_ZH.md`: review of Aarushi's nine new commits, overlap, numerical checks and remaining group decisions.
-- `PERSON_B_MEETING_NOTES.tex`: English speaking-note source. The user also has a longer bilingual Markdown manuscript in their local workspace.
+Current primary report: PERSON_B_REPORT_EN.md and person_b_q2_q3.tex. These build on Aarushi's submitted methods and results, supplemented by Yuchen (yf467) with Codex assistance.
 
-The local PDF previews are in the user's workspace `output/pdf/`. They were compiled with Tectonic and checked after rendering. They have not been uploaded to Overleaf. During step 12, add `\usepackage{graphicx}` to the actual main preamble once and upload `person_b_learning_curve.png`, then replace only the existing Q2 and Q3 sections. Preserve other people's report work and recompile the actual shared document.
+- Q2: results/learning_curve_required.csv (five required sizes, three-seed means), results/learning_curve_train_val.png (training and validation), and the extended results/learning_curve.csv/png. Original style validation records remain unchanged; training values for those historical style fits are unavailable.
+- Q3: Aarushi's unchanged results/pseudo_label.csv, extracted results/pseudo_label_report.csv and source/selection notes in results/pseudo_label_reference.json.
+- Full local replication: results/person_b_team_recheck/; style scores differ slightly and are kept distinct from the primary submitted table.
+- Report text/LaTeX, a report figure, Chinese explanation and contribution/AI-use text are in this folder. Add graphicx and the image when integrating with the actual team Overleaf later.
+- Earlier seed42/frozen-feature results and the initial meeting draft are supplementary historical material. Their numbers should not replace the current primary report.
 
-Q2.3 has 119 English words; Q3.1 has 100 and Q3.3 has 101. Values are generated from the real run records. Do not substitute Aarushi's refitted-feature Q3 result into the frozen-feature method text. Her teacher-student extension must retain its own method, selection caveat and attribution.
+Run python src/complete_person_b.py from the team directory to rebuild Q2 and prepare the preserved Q3 reference. To refit the pseudo-label grid locally, use python src/pseudo_label.py --output-dir results/person_b_new_recheck. These runs do not submit to Kaggle or edit Overleaf. See ../PERSON_B_RUNBOOK.md.

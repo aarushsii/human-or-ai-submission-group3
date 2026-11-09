@@ -1,3 +1,5 @@
+> Supplementary historical seed42/frozen-feature study. The current primary Person B report follows Aarushi and is report/PERSON_B_REPORT_EN.md; current required results are results/learning_curve_required.csv and results/pseudo_label_report.csv.
+
 # Completed Person B local experiments
 
 Run date: November 9, 2026. Source commit: `bb8eaf5f8811755b3cc3f3c19b8eaaf6944c10de`. Protocol signature: `54caca721159447a2001c9375b87a7fc6adcd32abefff5078aef8ed8c959624f`.

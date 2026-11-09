@@ -42,5 +42,6 @@
   "latest_shared_document_modified_at": "2026-11-09T15:11:49.306-05:00",
   "pdf_scope": "Person B sections and a speaking note; not the completed team report.",
   "external_writes_performed": false,
-  "human_personal_review_not_claimed_complete": true
+  "human_personal_review_not_claimed_complete": true,
+  "scope_note": "Historical validation of the earlier seed42/frozen-feature report PDF. Superseded as primary by the completion based on Aarushi in report/PERSON_B_REPORT_EN.md."
 }

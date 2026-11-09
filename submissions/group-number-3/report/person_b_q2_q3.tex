@@ -1,43 +1,35 @@
-% Replace the existing Q2 and Q3 sections with this block.
-% Add \usepackage{graphicx} to the main preamble once; upload person_b_learning_curve.png.
-% The question macro and tabularx/booktabs/Y column are already in the team template.
+% Primary: Aarushi's protocol and submitted Q3 results; completed by Yuchen.
+% Add graphicx to the main preamble and upload person_b_learning_curve.png.
 \section{Effect of training data size (10 points)}
-\question{Q2.1 [4 points].}{Fixed model configuration and results.}
-We used the team's word (1-2 grams) and char\_wb (3-5 grams) TF-IDF logistic regression. The classifier uses C=4 and at most 2,000 iterations. Seed 42 defines nested, balanced subsets of the shared 8,000-row training pool. Each TF-IDF transform is fitted only on its current subset. All sizes use the same 2,000 validation rows. The full-pool point reuses the baseline fit.
+\question{Q2.1 [4 points].}{Configuration and required results.}
+We extended Aarushi's existing TF-IDF logistic regression study, keeping C=4, at most 2,000 iterations, the shared 8,000/2,000 split, stratified subsampling and seeds 0, 1 and 2. We added the required 5,000-row point and training AUROC. Values below are means across three subsets, except the complete 8,000-row pool, which is fitted once. Each vocabulary and IDF is fitted on its own training subset only. The submitted style-model curves remain supplementary reference results.
 
-\begin{center}
-\begin{tabular}{@{}rrr@{}}
-\toprule Training rows & Training AUROC & Validation AUROC \\ \midrule
-500 & 1.000000 & 0.872922 \\
-1,000 & 1.000000 & 0.906055 \\
-2,000 & 1.000000 & 0.922570 \\
-5,000 & 1.000000 & 0.944931 \\
+\begin{center}\begin{tabular}{@{}rrr@{}}
+\toprule Training rows & Mean train AUROC & Mean validation AUROC \\ \midrule
+500 & 1.000000 & 0.869945 \\
+1,000 & 1.000000 & 0.896831 \\
+2,000 & 1.000000 & 0.924322 \\
+5,000 & 1.000000 & 0.943272 \\
 8,000 & 1.000000 & 0.950644 \\
-\bottomrule
-\end{tabular}
-\end{center}
-{\small Values are rounded to six decimals. Full-pool training AUROC is 0.999999875; a high ranking score does not imply perfect threshold-based classification.}
+\bottomrule\end{tabular}\end{center}
+{\small Three subsampling seeds; 8,000 uses one complete-pool fit. Full-pool train AUROC is 0.999999875 before rounding.}
 \question{Q2.2 [3 points].}{Training and validation learning curves.}
-\begin{center}
-\includegraphics[width=0.96\linewidth]{person_b_learning_curve.png}
-\end{center}
+\begin{center}\includegraphics[width=0.96\linewidth]{person_b_learning_curve.png}\end{center}
 \question{Q2.3 [3 points].}{Interpretation.}
-Training AUROC stays essentially 1.0000 at every training size, whereas validation AUROC rises from 0.8729 with 500 examples to 0.9506 with 8,000. This gap suggests overfitting, especially with limited labels, rather than an inability to fit the training data. Increasing the labeled sample size reduces the gap from about 0.1271 to 0.0494 and improves generalization on the fixed validation set. Returns diminish: the first 500 additional examples improve validation AUROC by 0.0331, while increasing from 5,000 to 8,000 adds only 0.0057. More labels may still help, but the curve does not establish performance beyond 8,000 examples. These findings concern one sampling seed and one validation split; further repetitions would be needed to assess variability and performance under distribution shift.
-
+Training AUROC remains essentially 1.0000 across all five training sizes, while mean validation AUROC increases from 0.8699 with 500 examples to 0.9506 with 8,000. This persistent gap suggests overfitting rather than clear underfitting. More labeled data reduces the gap and improves generalization on the fixed validation set. Gains diminish: increasing from 500 to 1,000 examples adds about 0.0269 AUROC, whereas adding 3,000 examples between 5,000 and 8,000 adds about 0.0074. Variation across the three sampling seeds is larger at small sizes. At 8,000, all seeds would use the same complete pool, so only one fit is reported. The trend supports more labels but does not establish performance beyond 8,000 or guarantee robustness under distribution shift.
 
 \section{Learning from unlabeled data (5 points)}
-\question{Q3.1 [2 points].}{Method and prevention of validation-label leakage.}
-We performed one round of confidence-filtered self-training using the fixed random split. First, the unchanged TF-IDF plus logistic regression baseline was trained on 8,000 labeled examples. It predicted AI probabilities for all 3,000 official unlabeled texts. Before evaluating self-training, we fixed acceptance thresholds at 0.05 and 0.95. We retained 247 pseudo-human and 381 pseudo-AI examples, froze the baseline vocabulary and IDF weights, and refitted only logistic regression on the combined 8,628 rows with equal sample weights. The same 2,000 validation examples were used only for scoring. Their texts never entered fitting, and their labels never determined pseudo-labels or threshold choices.
+\question{Q3.1 [2 points].}{Method and validation isolation.}
+We used Aarushi's teacher-student pseudo-labeling method. A gradient boosting teacher on stylometric features and a TF-IDF logistic regression control were trained on the same 8,000 labeled examples. The teacher assigned labels to unlabeled passages when p(AI) was at least 0.95 or at most 0.05, retaining 2,612 examples. We then refitted the entire TF-IDF student, including vocabulary and IDF, on the augmented training set. Both models were scored on the unchanged 2,000-example validation set. Validation labels never entered fitting or pseudo-label generation. Three thresholds were explored on this fold; selecting 0.95 therefore provides exploratory evidence.
 
-\question{Q3.2 [2 points].}{Same held-out validation comparison.}
-\begin{center}
-\begin{tabular}{@{}lrrr@{}}
-\toprule Method & Labeled rows & Pseudo rows & Validation AUROC \\ \midrule
-Supervised only & 8,000 & 0 & 0.950644 \\
-With unlabeled data & 8,000 & 628 & 0.950170 \\
-\bottomrule
-\end{tabular}
-\end{center}
-The change in AUROC is $-0.000474$. Of 3,000 unlabeled rows, 247 were assigned pseudo-human labels and 381 pseudo-AI labels. The other 2,372 were excluded. Vocabulary mappings, IDF values and transformation parameters were identical before and after self-training.
-\question{Q3.3 [1 point].}{Did it help?}
-Adding pseudo-labeled data changed validation AUROC from 0.950644 to 0.950170, a decrease of 0.000474. Thus, this fixed self-training configuration did not improve the supervised baseline on the shared validation set. Confidence filtering retained only 628 of 3,000 unlabeled examples, so most extra texts contributed no training signal. Incorrect confident predictions could reinforce existing mistakes, while selecting easy examples may provide little new information. We cannot measure pseudo-label accuracy because their true labels are unavailable. The small decrease on one split does not establish a reliable harmful effect or rule out other semi-supervised methods. We retain the supervised baseline as the reference.
+\question{Q3.2 [2 points].}{Primary submitted comparison.}
+\begin{center}\begin{tabular}{@{}lrr@{}}
+\toprule Method & Pseudo rows & Validation AUROC \\ \midrule
+Supervised TF-IDF LR & 0 & 0.9506 \\
+Style-teacher pseudo-labeling & 2,612 & 0.9537 \\
+\bottomrule\end{tabular}\end{center}
+{\small Source: Aarushi's unchanged submitted table; both use 8,000 true labeled rows. Values are reported to the four decimals available.}
+\question{Q3.3 [1 point].}{Interpretation.}
+Aarushi's style-teacher run improved validation AUROC from 0.9506 to 0.9537, approximately 0.0031. Self-training did not improve the control. A teacher with different features may contribute information the TF-IDF student misses. However, confidence does not guarantee correct labels, and the style model is sensitive to formatting artifacts. This setting was selected after comparing two teachers and three thresholds on the same validation fold, so its gain is exploratory. Our local repetition gave the same improvement direction but different style scores. We retain the original results as primary evidence and report the repetition separately, without claiming a statistically reliable benefit.
+
+{\small Local replication selected 2,609 pseudo-labels and obtained 0.954365 versus 0.950644. It is preserved separately; small style-model discrepancies were not resolved to a single cause. Original inputs/split were unchanged.}

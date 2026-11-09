@@ -91,7 +91,7 @@ def main():
         checks["existing_learning_curve_points_preserved"] = len(joined) == len(old_curves) and np.allclose(
             joined.val_auroc_old, joined.val_auroc_new, atol=1e-10, rtol=0)
     if old_pseudo is not None:
-        checks["existing_rounded_pseudo_results_reproduced"] = (
+        checks["primary_pseudo_reference_preserved" if not args.rerun_pseudo else "existing_rounded_pseudo_results_reproduced"] = (
             old_pseudo.teacher.tolist() == pseudo.teacher.tolist() and
             old_pseudo.n_added.tolist() == pseudo.n_added.tolist() and
             np.allclose(old_pseudo.val_auroc, pseudo.val_auroc.round(4), atol=1e-12, rtol=0))

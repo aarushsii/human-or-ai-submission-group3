@@ -76,24 +76,23 @@ All reported validation scores use these shared splits so results are comparable
 
 ## Results
 
-### Person B: checked Q2/Q3 experiments
+### Person B: completion of Aarushi's shared experiments
 
-Yuchen Feng (`yf467`), with Codex assistance. From the **repository root**, use the pinned environment in `submissions/group-number-3/requirements-person-b.lock.txt` and the verified original competition CSVs. Use the committed `splits/splits.csv`; do not generate a replacement. Completed primary results are under `submissions/group-number-3/results/person_b/`.
+Original Person B methods and reference results: Aarushi. Missing rubric items and integration: Yuchen Feng (`yf467`), with Codex assistance.
 
-To reproduce into a fresh directory:
+From the repository root:
 
 ```bash
-.venv/bin/python -m unittest discover -s submissions/group-number-3/tests -v
-.venv/bin/python submissions/group-number-3/src/person_b.py verify --output-dir submissions/group-number-3/results/person_b_reproduction
-.venv/bin/python -u submissions/group-number-3/src/person_b.py baseline --output-dir submissions/group-number-3/results/person_b_reproduction
-.venv/bin/python -u submissions/group-number-3/src/person_b.py q2 --output-dir submissions/group-number-3/results/person_b_reproduction
-.venv/bin/python -u submissions/group-number-3/src/person_b.py q3 --output-dir submissions/group-number-3/results/person_b_reproduction
-.venv/bin/python submissions/group-number-3/src/check_person_b_results.py --candidate submissions/group-number-3/results/person_b_reproduction --report submissions/group-number-3/results/person_b_reproduction/comparison.json
+.venv/bin/python submissions/group-number-3/src/complete_person_b.py
 ```
 
-The runner refuses to overwrite completed stages. After intentionally integrating a refactored `models.py` that preserves this baseline configuration, the comparison tool accepts `--allow-model-refactor`; it still requires matching parameters, inputs, subset IDs, scores and predictions. See [the full runbook](PERSON_B_RUNBOOK.md), [QA evidence](results/person_b_qa/README.md), and [report integration materials](report/README.md).
+This rebuilds TF-IDF learning curves with the existing seeds 0/1/2, adds 5,000 rows and training AUROC, preserves Aarushi's original style validation points and Q3 reference table, and prepares the required report tables/figure. The original teacher-linked data and fixed committed split are checked by hash. No new split or Kaggle submission is generated.
 
-Random baseline AUROC: 0.950644; OOD: 0.935863. Q2 validation AUROC rises from 0.872922 (500 rows) to 0.950644 (8000 rows). Fixed-feature Q3 adds 628 pseudo-labels and obtains 0.950170, a change of -0.000474. These are local validation scores, not Kaggle leaderboard scores. Additional experiments by other team members retain their own methods and attribution.
+- Q2 primary table/figure: `results/learning_curve_required.csv` and `results/learning_curve_train_val.png`; validation means for 500/1000/2000/5000/8000 are 0.869945/0.896831/0.924322/0.943272/0.950644.
+- Q3 primary reference: Aarushi's unchanged `results/pseudo_label.csv`; `results/pseudo_label_report.csv` extracts control 0.9506 and style teacher 0.9537 (threshold 0.95, 2612 pseudo-labels). Threshold selection on the same validation fold is exploratory.
+- A separate local repeat is in `results/person_b_team_recheck/`: style teacher selected 2609 and reached 0.954365 versus 0.950644. Its different style scores are not substituted into the primary table.
+- Completed Q2/Q3 text and LaTeX, figure, contribution and AI-use material: [report package](report/README.md). Overleaf is still pending.
+- [Runbook](PERSON_B_RUNBOOK.md) documents exact commands, environment and provenance. Earlier seed42/frozen-feature experiments under `results/person_b/` are supplementary historical studies.
 
 | Model | Val AUROC (random) | Val AUROC (OOD) | Public LB |
 |-------|-------------------|-----------------|-----------|
