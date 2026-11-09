@@ -1,0 +1,53 @@
+Top features -> AI:
+  c:' > '                        5.27
+  w:ingredients                  3.42
+  c:' - '                        3.36
+  w:who                          3.33
+  c:'s: '                        3.15
+  w:instructions                 2.57
+  c:' * '                        2.51
+  w:including                    2.48
+  w:overall                      2.45
+  w:abstract                     2.43
+  w:such as                      2.22
+  c:'ts:'                        2.21
+  c:'ts: '                       2.21
+  w:here                         2.16
+  w:show that                    2.16
+  c:'1. '                        2.12
+  c:'nts:'                       2.11
+  c:'nts: '                      2.11
+  c:'ents:'                      2.11
+  c:'who '                       2.1
+  w:our                          2.07
+  c:' who '                      2.06
+  c:'ho '                        2.05
+  c:'dient'                      2.03
+  w:sure                         2.02
+
+Top features -> human:
+  w:the                          -5.04
+  w:of                           -4.75
+  w:and                          -4.21
+  w:of the                       -4.2
+  w:is                           -3.27
+  w:in                           -3.17
+  w:in the                       -3.12
+  w:br                           -3.12
+  c:' i '                        -3.09
+  w:at the                       -2.71
+  w:to                           -2.67
+  w:segmentation                 -2.56
+  w:br br                        -2.48
+  w:me                           -2.47
+  w:from                         -2.46
+  w:have                         -2.4
+  c:'ly '                        -2.38
+  w:with the                     -2.25
+  w:my                           -2.22
+  c:' the '                      -2.13
+  w:image segmentation           -2.13
+  w:all the                      -2.11
+  w:and in                       -2.09
+  w:for the                      -2.07
+  c:'the '                       -2.03
