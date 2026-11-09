@@ -4,3 +4,4 @@
 {"model": "naive_bayes", "timestamp": "2026-11-09T14:18:25", "random_fold_auroc": 0.8682, "ood_fold_auroc": 0.8575}
 {"model": "linear_svm", "timestamp": "2026-11-09T14:18:29", "random_fold_auroc": 0.9504, "ood_fold_auroc": 0.9363}
 {"model": "style_gbm", "timestamp": "2026-11-09T14:24:35", "random_fold_auroc": 0.9945, "ood_fold_auroc": 0.99}
+{"model": "distilroberta-base", "timestamp": "2026-11-09T17:39:45", "random_fold_auroc": 0.9867, "train_auroc": 0.9951, "train_time_s": 653, "mode": "val", "epochs": 2, "lr": 2e-05, "batch": 16, "max_len": 256, "keep_newlines": false}
