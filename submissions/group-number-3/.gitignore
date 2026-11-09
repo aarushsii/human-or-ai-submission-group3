@@ -2,3 +2,12 @@ data/
 submission.csv
 __pycache__/
 .ipynb_checkpoints/
+
+# Version the fixed shared split; raw competition CSVs remain ignored.
+!splits/splits.csv
+
+# Local model/cache files are not team deliverables.
+.person_b_cache/
+
+# Small Person B experiment tables and predictions are reproducibility artifacts.
+!results/person_b/*.csv
