@@ -1,0 +1,43 @@
+% Replace the existing Q2 and Q3 sections with this block.
+% Add \usepackage{graphicx} to the main preamble once; upload person_b_learning_curve.png.
+% The question macro and tabularx/booktabs/Y column are already in the team template.
+\section{Effect of training data size (10 points)}
+\question{Q2.1 [4 points].}{Fixed model configuration and results.}
+We used the team's word (1-2 grams) and char\_wb (3-5 grams) TF-IDF logistic regression. The classifier uses C=4 and at most 2,000 iterations. Seed 42 defines nested, balanced subsets of the shared 8,000-row training pool. Each TF-IDF transform is fitted only on its current subset. All sizes use the same 2,000 validation rows. The full-pool point reuses the baseline fit.
+
+\begin{center}
+\begin{tabular}{@{}rrr@{}}
+\toprule Training rows & Training AUROC & Validation AUROC \\ \midrule
+500 & 1.000000 & 0.872922 \\
+1,000 & 1.000000 & 0.906055 \\
+2,000 & 1.000000 & 0.922570 \\
+5,000 & 1.000000 & 0.944931 \\
+8,000 & 1.000000 & 0.950644 \\
+\bottomrule
+\end{tabular}
+\end{center}
+{\small Values are rounded to six decimals. Full-pool training AUROC is 0.999999875; a high ranking score does not imply perfect threshold-based classification.}
+\question{Q2.2 [3 points].}{Training and validation learning curves.}
+\begin{center}
+\includegraphics[width=0.96\linewidth]{person_b_learning_curve.png}
+\end{center}
+\question{Q2.3 [3 points].}{Interpretation.}
+Training AUROC stays essentially 1.0000 at every training size, whereas validation AUROC rises from 0.8729 with 500 examples to 0.9506 with 8,000. This gap suggests overfitting, especially with limited labels, rather than an inability to fit the training data. Increasing the labeled sample size reduces the gap from about 0.1271 to 0.0494 and improves generalization on the fixed validation set. Returns diminish: the first 500 additional examples improve validation AUROC by 0.0331, while increasing from 5,000 to 8,000 adds only 0.0057. More labels may still help, but the curve does not establish performance beyond 8,000 examples. These findings concern one sampling seed and one validation split; further repetitions would be needed to assess variability and performance under distribution shift.
+
+
+\section{Learning from unlabeled data (5 points)}
+\question{Q3.1 [2 points].}{Method and prevention of validation-label leakage.}
+We performed one round of confidence-filtered self-training using the fixed random split. First, the unchanged TF-IDF plus logistic regression baseline was trained on 8,000 labeled examples. It predicted AI probabilities for all 3,000 official unlabeled texts. Before evaluating self-training, we fixed acceptance thresholds at 0.05 and 0.95. We retained 247 pseudo-human and 381 pseudo-AI examples, froze the baseline vocabulary and IDF weights, and refitted only logistic regression on the combined 8,628 rows with equal sample weights. The same 2,000 validation examples were used only for scoring. Their texts never entered fitting, and their labels never determined pseudo-labels or threshold choices.
+
+\question{Q3.2 [2 points].}{Same held-out validation comparison.}
+\begin{center}
+\begin{tabular}{@{}lrrr@{}}
+\toprule Method & Labeled rows & Pseudo rows & Validation AUROC \\ \midrule
+Supervised only & 8,000 & 0 & 0.950644 \\
+With unlabeled data & 8,000 & 628 & 0.950170 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The change in AUROC is $-0.000474$. Of 3,000 unlabeled rows, 247 were assigned pseudo-human labels and 381 pseudo-AI labels. The other 2,372 were excluded. Vocabulary mappings, IDF values and transformation parameters were identical before and after self-training.
+\question{Q3.3 [1 point].}{Did it help?}
+Adding pseudo-labeled data changed validation AUROC from 0.950644 to 0.950170, a decrease of 0.000474. Thus, this fixed self-training configuration did not improve the supervised baseline on the shared validation set. Confidence filtering retained only 628 of 3,000 unlabeled examples, so most extra texts contributed no training signal. Incorrect confident predictions could reinforce existing mistakes, while selecting easy examples may provide little new information. We cannot measure pseudo-label accuracy because their true labels are unavailable. The small decrease on one split does not establish a reliable harmful effect or rule out other semi-supervised methods. We retain the supervised baseline as the reference.

@@ -20,6 +20,8 @@ The hidden test set is not read by these experiments. No external model labels t
 
 The environment is locked in `requirements-person-b.lock.txt`. On this Mac, the repository root contains `.venv`; see `PERSON_B_ENVIRONMENT.md` for setup details.
 
+The short commands below document the original primary run. For a checkout that already contains completed results, append `--output-dir submissions/group-number-3/results/person_b_reproduction` to **each** command (`verify`, `baseline`, `q2`, `q3`) and choose a directory that has not already completed those stages. This is also required after a model-source refactor, because source hashes guard the primary records against mixing protocols. The team README gives the full fresh-run sequence.
+
 ```bash
 .venv/bin/python -m unittest discover -s submissions/group-number-3/tests -v
 .venv/bin/python submissions/group-number-3/src/person_b.py verify
@@ -31,6 +33,14 @@ The environment is locked in `requirements-person-b.lock.txt`. On this Mac, the 
 Run the fitting stages sequentially. The runner limits native numerical libraries to two threads and retains sparse matrices. It refuses to overwrite a completed stage, preserves failure records, checks its own cache hash, and records source-code hashes and Git commits. Keep the default result directory for the primary run. For a fresh reproduction, provide the **same new directory** to all four commands, for example `--output-dir submissions/group-number-3/results/person_b_reproduction`; allow several minutes and adequate memory. A cache may be reused only as the already fitted full-pool control within that protocol; `baseline` itself always fits from scratch.
 
 Finish baseline → Q2 → Q3 in one output directory before starting another reproduction of the same protocol. The disposable model cache is shared per protocol, and a fresh baseline replaces it; this does not change saved result tables, but an earlier unfinished run will reject a cache whose file hash no longer matches. Concurrent runs of the same protocol are not supported.
+
+After a fresh run, compare saved predictions, scores, inputs and selections with:
+
+```bash
+.venv/bin/python submissions/group-number-3/src/check_person_b_results.py --candidate submissions/group-number-3/results/person_b_reproduction --report submissions/group-number-3/results/person_b_reproduction/comparison.json
+```
+
+If deliberately validating Aarushi's equivalent TF-IDF factory refactor, add `--allow-model-refactor`: only `src/models.py` may differ among recorded experiment sources, and all baseline parameters, probabilities and scores must still match. Clean-checkout and isolated team-integration runs each passed 51 checks on November 9; see `results/person_b_qa/`. Fresh installation and other platforms were not tested. Original experiments remain under `results/person_b/`; report material is under `report/`.
 
 ## Outputs
 

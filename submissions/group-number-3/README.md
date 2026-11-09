@@ -14,7 +14,8 @@ Cornell Tech CS 5785 Applied Machine Learning, Fall 2026.
 git clone https://github.com/aarushsii/Kaggle_Group3_Competition.git
 cd Kaggle_Group3_Competition
 python -m venv .venv && source .venv/bin/activate   # or use conda
-pip install -r requirements.txt
+pip install -r submissions/group-number-3/requirements.txt
+cd submissions/group-number-3
 ```
 
 ### Data
@@ -65,15 +66,34 @@ All reported validation scores use these shared splits so results are comparable
 
 ## Experiments
 
-| # | Experiment | Report section | Notebook |
+| # | Experiment | Report section | Entrypoint |
 |---|-----------|----------------|----------|
 | 1 | Baseline: TF-IDF (word + char n-grams) + Logistic Regression | Model comparison | `experiments/01_baseline_tfidf_logreg.ipynb` |
 | 2 | Model comparison (NB, SVM, boosting, neural) | Model comparison | `experiments/02_model_comparison.ipynb` |
-| 3 | Learning curves vs. training set size | Effect of data size | `experiments/03_learning_curves.ipynb` |
-| 4 | Pseudo-labeling with `unlabeled.csv` | Unlabeled data | `experiments/04_pseudo_labeling.ipynb` |
+| 3 | Learning curves vs. training set size | Effect of data size | `src/person_b.py q2` |
+| 4 | Pseudo-labeling with `unlabeled.csv` | Unlabeled data | `src/person_b.py q3` |
 | 5 | Error analysis and generalization | Generalization | `experiments/05_error_analysis.ipynb` |
 
 ## Results
+
+### Person B: checked Q2/Q3 experiments
+
+Yuchen Feng (`yf467`), with Codex assistance. From the **repository root**, use the pinned environment in `submissions/group-number-3/requirements-person-b.lock.txt` and the verified original competition CSVs. Use the committed `splits/splits.csv`; do not generate a replacement. Completed primary results are under `submissions/group-number-3/results/person_b/`.
+
+To reproduce into a fresh directory:
+
+```bash
+.venv/bin/python -m unittest discover -s submissions/group-number-3/tests -v
+.venv/bin/python submissions/group-number-3/src/person_b.py verify --output-dir submissions/group-number-3/results/person_b_reproduction
+.venv/bin/python -u submissions/group-number-3/src/person_b.py baseline --output-dir submissions/group-number-3/results/person_b_reproduction
+.venv/bin/python -u submissions/group-number-3/src/person_b.py q2 --output-dir submissions/group-number-3/results/person_b_reproduction
+.venv/bin/python -u submissions/group-number-3/src/person_b.py q3 --output-dir submissions/group-number-3/results/person_b_reproduction
+.venv/bin/python submissions/group-number-3/src/check_person_b_results.py --candidate submissions/group-number-3/results/person_b_reproduction --report submissions/group-number-3/results/person_b_reproduction/comparison.json
+```
+
+The runner refuses to overwrite completed stages. After intentionally integrating a refactored `models.py` that preserves this baseline configuration, the comparison tool accepts `--allow-model-refactor`; it still requires matching parameters, inputs, subset IDs, scores and predictions. See [the full runbook](PERSON_B_RUNBOOK.md), [QA evidence](results/person_b_qa/README.md), and [report integration materials](report/README.md).
+
+Random baseline AUROC: 0.950644; OOD: 0.935863. Q2 validation AUROC rises from 0.872922 (500 rows) to 0.950644 (8000 rows). Fixed-feature Q3 adds 628 pseudo-labels and obtains 0.950170, a change of -0.000474. These are local validation scores, not Kaggle leaderboard scores. Additional experiments by other team members retain their own methods and attribution.
 
 | Model | Val AUROC (random) | Val AUROC (OOD) | Public LB |
 |-------|-------------------|-----------------|-----------|

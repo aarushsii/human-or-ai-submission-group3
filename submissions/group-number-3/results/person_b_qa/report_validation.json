@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-11-09T15:38:30.872114-05:00",
+  "checks": {
+    "PERSON_B_Q2_Q3_REPORT_expected_page_count": true,
+    "PERSON_B_Q2_Q3_REPORT_no_placeholders_or_replacement_glyphs": true,
+    "PERSON_B_Q2_Q3_REPORT_no_tex_box_overflows": true,
+    "pdf_contains_0.872922": true,
+    "pdf_contains_0.906055": true,
+    "pdf_contains_0.922570": true,
+    "pdf_contains_0.944931": true,
+    "pdf_contains_0.950644": true,
+    "pdf_contains_0.950170": true,
+    "pdf_contains_0.000474": true,
+    "PERSON_B_MEETING_NOTES_expected_page_count": true,
+    "PERSON_B_MEETING_NOTES_no_placeholders_or_replacement_glyphs": true,
+    "PERSON_B_MEETING_NOTES_no_tex_box_overflows": true,
+    "markdown_table_matches_all_q2_scores": true,
+    "actual_shared_template_q2_q3_still_untouched": true,
+    "pdf_pages_visually_reviewed": true,
+    "english_response_word_counts_in_range": true,
+    "primary_historical_log_unchanged": true,
+    "both_51_check_reproductions_passed": true
+  },
+  "all_passed": true,
+  "pdfs": {
+    "PERSON_B_Q2_Q3_REPORT": {
+      "pages": 2,
+      "sha256": "7ccfb3ea351d7f85149707356cd16f8dcda7d36f062a941c1890c31a4338e6ed"
+    },
+    "PERSON_B_MEETING_NOTES": {
+      "pages": 1,
+      "sha256": "ce14647c7530443e8bf9861aef39740d6da7eff05426ef18e7c99743746abbd5"
+    }
+  },
+  "word_counts": {
+    "q2_3": 119,
+    "q3_1": 100,
+    "q3_3": 101,
+    "meeting_main": 175
+  },
+  "latest_team_commit_checked": "0e09450db2be0281ad8ebf47f104a33da5308cdc",
+  "latest_shared_document_modified_at": "2026-11-09T15:11:49.306-05:00",
+  "pdf_scope": "Person B sections and a speaking note; not the completed team report.",
+  "external_writes_performed": false,
+  "human_personal_review_not_claimed_complete": true
+}
