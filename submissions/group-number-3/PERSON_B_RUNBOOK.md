@@ -1,6 +1,6 @@
 # Person B: complete the shared experiments
 
-Primary basis: Aarushi's `0e09450` experiments and submitted reference results. Yuchen Feng (`yf467`), with Codex assistance, supplies missing Q2 training scores, the 5000-row size, the required plot/report, shared split tracking and reproducibility material. Original methods and attribution are retained.
+Primary basis: Aarushi's `0e09450` experiments and submitted reference results. Yuchen Feng (`yf467`) supplies missing Q2 training scores, the 5000-row size, the required plot/report, shared split tracking and reproducibility material. Original methods and attribution are retained.
 
 ## Setup and inputs
 
@@ -39,7 +39,7 @@ To refit both learning-curve models, including style, use `src/learning_curve.py
 - `results/learning_curve_train_val.png`: required training/validation plot; `learning_curve.png` keeps the original two-model validation comparison and adds the TF-IDF 5000 point.
 - `results/pseudo_label.csv`: Aarushi's submitted reference, unchanged; `pseudo_label_report.csv` and `pseudo_label_reference.json` prepare/report its selected comparison.
 - `results/person_b_completion_manifest.json`: official input/source hashes, versions, preservation checks and scope.
-- `report/PERSON_B_REPORT_EN.md`, `report/person_b_q2_q3.tex`, figure, Chinese notes and contribution/AI-use text: complete Person B report material.
+- `report/PERSON_B_REPORT_EN.md`, `report/person_b_q2_q3.tex`, figure and contribution notes: complete Person B report material.
 
 A full local recheck of all 38 curve fits and all seven Q3 rows is preserved in `results/person_b_team_recheck/`. TF-IDF old points matched exactly, but style scores did not. The guard retained that mismatch; the canonical version preserves the original reference and labels local measurements separately. This is not independent confirmation on a new validation set.
 

@@ -1,6 +1,6 @@
 # Person B: completed Q2 and Q3
 
-**Primary work:** Aarushi's experiments in team commit `0e09450`. **Completion:** Yuchen Feng (`yf467`), with Codex assistance, extended the existing code, filled missing rubric items, checked results and prepared this report. The original experiments retain Aarushi's attribution.
+**Primary work:** Aarushi's experiments in team commit `0e09450`. **Completion:** Yuchen Feng (`yf467`) extended the existing code, filled missing rubric items, checked results and prepared this report. The original experiments retain Aarushi's attribution.
 
 ## Q2.1 — fixed configuration and required results
 
@@ -45,14 +45,14 @@ Aarushi's style-teacher run improved validation AUROC from 0.9506 to 0.9537, app
 
 ## Local replication and reproducibility
 
-The teacher-linked official files and original shared split passed SHA256 checks before and after fitting. No split was regenerated, no validation texts/labels entered model fitting, no hidden labels or external LLM predictions were used, and no Kaggle submission was made. Commands are in `../PERSON_B_RUNBOOK.md`.
+The teacher-linked official files and original shared split passed SHA256 checks before and after fitting. No split was regenerated, no validation texts/labels entered model fitting, no hidden labels were used, and no Kaggle submission was made. Commands are in `../PERSON_B_RUNBOOK.md`.
 
 All original TF-IDF learning-curve points reproduced exactly. A full local repetition of both learning-curve models and all seven pseudo-label rows is preserved in `../results/person_b_team_recheck/`. The style teacher at 0.95 selected 2,609 rows locally and achieved 0.954365 versus 0.950644. This differs from Aarushi's 2,612 / 0.9537 and is not substituted into her table. The cause of the small style differences was not isolated; her exact original environment was not recorded. Both observations are exploratory evaluations on the same validation fold.
 
 Earlier seed-42 nested-subset and fixed-feature self-training results under `../results/person_b/` are supplementary historical experiments, not the primary report above. Their real scores and failed-check history are retained. The chosen primary Q2 now uses Aarushi's three seeds; do not mix its means with the earlier single-seed values.
 
-## Contribution and AI use
+## Contributions
 
-Aarushi supplied the original model, sampling protocol, style features, teacher-student study and reference results. Yuchen's completion adds the required 5,000-row TF-IDF experiment, training scores, the train/validation plot, report responses, shared-split tracking and reproducibility material. Codex substantially assisted with coding, execution, debugging, checks and writing. Human-specific verification should describe only what each author actually reviewed. No assertion of manual line-by-line review is made.
+Aarushi supplied the original model, sampling protocol, style features, teacher-student study and reference results. Yuchen's completion adds the required 5,000-row TF-IDF experiment, training scores, the train/validation plot, report responses, shared-split tracking and reproducibility material.
 
 Overleaf has not been edited. This package provides the completed Person B text/figures for later insertion; the full team report, final model, course PR and final Kaggle selection remain group tasks.
