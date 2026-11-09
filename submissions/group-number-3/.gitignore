@@ -10,4 +10,4 @@ __pycache__/
 .person_b_cache/
 
 # Small Person B experiment tables and predictions are reproducibility artifacts.
-!results/person_b/*.csv
+!results/person_b*/*.csv

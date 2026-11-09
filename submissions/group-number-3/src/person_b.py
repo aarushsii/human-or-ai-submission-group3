@@ -136,6 +136,29 @@ def model_parameters(config):
     }
 
 
+def feature_fingerprint(features):
+    """Hash learned representation, excluding process-local analyzer caches.
+
+    Vectorizer.transform() refreshes _stop_words_id after deserialization.
+    That Python object ID is not vocabulary, IDF or a transformation parameter.
+    A whole-estimator pickle hash would falsely report a representation change.
+    """
+    vectorizers = []
+    for name, vectorizer in features.transformer_list:
+        idf = np.asarray(vectorizer.idf_, dtype="<f8")
+        vectorizers.append({
+            "name": name, "parameters": vectorizer.get_params(deep=False),
+            "vocabulary": sorted((word, int(index))
+                                 for word, index in vectorizer.vocabulary_.items()),
+            "idf_shape": idf.shape,
+            "idf_sha256": hashlib.sha256(idf.tobytes(order="C")).hexdigest(),
+        })
+    payload = {"transformer_weights": features.transformer_weights,
+               "vectorizers": vectorizers}
+    canonical = json.dumps(payload, sort_keys=True, default=json_default)
+    return hashlib.sha256(canonical.encode()).hexdigest()
+
+
 def load_context(config_path, output):
     config_path, output = Path(config_path).resolve(), Path(output).resolve()
     config = json.loads(config_path.read_text())
@@ -276,7 +299,7 @@ def run_baseline(ctx):
             cache_file = ctx["cache"] / "supervised_random.joblib"
             joblib.dump(model, cache_file, compress=3)
             result["cache_sha256"] = sha256(cache_file)
-            result["feature_fingerprint"] = joblib.hash(model.named_steps["features"])
+            result["feature_fingerprint"] = feature_fingerprint(model.named_steps["features"])
         results[fold] = result
         del model
         gc.collect()
@@ -320,6 +343,9 @@ def plot_learning_curve(frame, destination):
                    fontsize=10, color="#475569")
     figure.savefig(destination / "learning_curve.png", dpi=240)
     figure.savefig(destination / "learning_curve.svg")
+    # Matplotlib emits harmless trailing spaces in SVG path data; keep diffs clean.
+    svg = destination / "learning_curve.svg"
+    svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines()) + "\n")
     plt.close(figure)
 
 
@@ -371,7 +397,7 @@ def run_q3(ctx):
     if set(unlabeled["id"]) & set(ctx["train"]["id"]):
         raise ValueError("Unlabeled IDs overlap labeled data.")
     features = model.named_steps["features"]
-    feature_before = joblib.hash(features)
+    feature_before = feature_fingerprint(features)
     started = time.perf_counter()
     x_unlabeled = features.transform(unlabeled["text"])
     probabilities = positive_probabilities(model.named_steps["clf"], x_unlabeled)
@@ -411,7 +437,7 @@ def run_q3(ctx):
     x_validation = features.transform(ctx["validation"]["text"])
     semi_probabilities = positive_probabilities(classifier, x_validation)
     semi_auc = float(roc_auc_score(ctx["validation"]["label"], semi_probabilities))
-    feature_after = joblib.hash(features)
+    feature_after = feature_fingerprint(features)
     if feature_before != feature_after or feature_after != baseline["feature_fingerprint"]:
         raise ValueError("The Q3 experiment changed the frozen TF-IDF representation.")
     delta = semi_auc - baseline["validation_auroc"]
