@@ -1,0 +1,38 @@
+{
+  "random_fold": {
+    "training_rows": 8000,
+    "validation_rows": 2000,
+    "training_auroc": 0.999999875,
+    "validation_auroc": 0.9506439999999999,
+    "fit_seconds": 6.3723614170448855,
+    "feature_fit_seconds": 5.410139917046763,
+    "classifier_fit_seconds": 0.9621771250385791,
+    "feature_count": 300928,
+    "classifier_iterations": [
+      30
+    ],
+    "training_ids_sha256": "bacd981658077c5cf7a5c2801d574a723f44c34b0fb6703a924ba6dc7cb884de",
+    "validation_ids_sha256": "f07cd5a4819ae44827b54d9fe8865a21962e9034c1f2c26dd76138eb05b6f2fc",
+    "warnings": [],
+    "fold": "random_fold",
+    "cache_sha256": "ba3bc59720c4769faac0fdf166d2942fa603cef1270013b9fdec08e8913af4bd",
+    "feature_fingerprint": "bbab798b1461d7e5b46cc191dc109228a50e84e38351630fb6cd38e10e34c315"
+  },
+  "ood_fold": {
+    "training_rows": 7541,
+    "validation_rows": 2459,
+    "training_auroc": 0.9999995779452179,
+    "validation_auroc": 0.9358626859824611,
+    "fit_seconds": 5.568020374979824,
+    "feature_fit_seconds": 4.864516583969817,
+    "classifier_fit_seconds": 0.7034819589462131,
+    "feature_count": 277224,
+    "classifier_iterations": [
+      26
+    ],
+    "training_ids_sha256": "d4838d891c4948ba114fd46c9b985ba60d73016165fffc1d1c944c99c7bd2e4c",
+    "validation_ids_sha256": "15088ed10e5998884d424a480ed8b740c3a7e80f6e440ee80d89082f17a63838",
+    "warnings": [],
+    "fold": "ood_fold"
+  }
+}

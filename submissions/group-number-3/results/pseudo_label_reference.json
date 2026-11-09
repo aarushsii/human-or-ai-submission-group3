@@ -1,0 +1,7 @@
+{
+  "source": "Aarushi's committed pseudo_label.csv at 0e09450, preserved without changing scores",
+  "rounding": "Original scores are available at four decimal places only",
+  "local_recheck": "results/person_b_team_recheck/ contains the separately measured local replication; style results differ slightly.",
+  "feature_policy": "Refit the full student TF-IDF pipeline on original labeled plus pseudo-labeled texts",
+  "selection_caveat": "Three thresholds and two teachers were explored on the same validation set; the reported best setting is exploratory."
+}

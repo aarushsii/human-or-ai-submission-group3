@@ -1,0 +1,51 @@
+{
+  "purpose": "Environment verification only; no competition data loaded and no model fitted.",
+  "python_version": "3.14.8",
+  "implementation": "CPython",
+  "machine": "arm64",
+  "macos": "26.6.2",
+  "packages": {
+    "pip": "26.2.1",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "jupyter": "1.1.1",
+    "jupyterlab": "4.6.6",
+    "notebook": "7.6.5",
+    "ipykernel": "7.4.0",
+    "joblib": "1.6.0",
+    "threadpoolctl": "3.8.0"
+  },
+  "checks": {
+    "virtual_environment_isolated": true,
+    "numpy_numeric_operation": true,
+    "pandas_dataframe_operation": true,
+    "scipy_sparse_operation": true,
+    "team_model_constructs_without_training": true,
+    "matplotlib_png_output": true,
+    "jupyter_modules_import": true
+  },
+  "split_generation_run": false,
+  "competition_data_loaded": false,
+  "model_training_run": false,
+  "verified_at": "2026-11-09T14:07:39.226830-05:00",
+  "git_branch": "yuchen/person-b",
+  "code_commit_at_setup": "c7be9f30ac94e34573a9057d429c77f91d52ad6d",
+  "original_requirements_sha256": "487a04a91be08de378e241202389355dcaab5f03b851f90813b0e7712a50ab1e",
+  "lock_file": "requirements-person-b.lock.txt",
+  "lock_sha256": "2f14a02857734d07c8e9c848a38c593c8023ae8653fee9accdfe152e2e052652",
+  "frozen_package_count": 112,
+  "pip_dependency_check": "passed: No broken requirements found.",
+  "existing_tracked_files_unchanged": true,
+  "split_directory_unchanged": true,
+  "initial_verification_notes": [
+    "The first Matplotlib import reported unwritable global font cache directories in the restricted shell; local Matplotlib cache was built and PNG output succeeded. Use project-local cache directories when needed."
+  ],
+  "documentation_sources": [
+    "https://scikit-learn.org/stable/install.html",
+    "https://pypi.org/project/scikit-learn/",
+    "https://pypi.org/project/scipy/"
+  ]
+}

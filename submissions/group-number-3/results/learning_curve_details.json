@@ -1,0 +1,268 @@
+{
+  "based_on": "Aarushi's learning_curve.py at 0e09450; unchanged models, seeds and subsample function",
+  "preserved_style_validation_rows": 16,
+  "style_training_score_policy": "Unavailable for original submitted style fits; never pair local training scores with another run's validation scores.",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "required_sizes": [
+    500,
+    1000,
+    2000,
+    5000,
+    8000
+  ],
+  "runs": [
+    {
+      "model": "tfidf_logreg",
+      "n_train": 250,
+      "seed": 0,
+      "train_auroc": 1.0,
+      "val_auroc": 0.800053,
+      "fit_seconds": 0.18956541700754315,
+      "training_ids_sha256": "97ab228b21783c24043fd4197e3bbebfe972385ece546c5961fd4c9950f4c2b7",
+      "training_class_counts": {
+        "1": 125,
+        "0": 125
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 250,
+      "seed": 1,
+      "train_auroc": 1.0,
+      "val_auroc": 0.7900020000000001,
+      "fit_seconds": 0.2152691250666976,
+      "training_ids_sha256": "47f66f983cdeb46da5d23ec933874e5d2b027039527de5d0b60614efc9520bed",
+      "training_class_counts": {
+        "0": 125,
+        "1": 125
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 250,
+      "seed": 2,
+      "train_auroc": 1.0,
+      "val_auroc": 0.8395999999999999,
+      "fit_seconds": 0.19249908300116658,
+      "training_ids_sha256": "c0f159ee5097ee159729037e52c7e17f955a2d4b579fe10ff436ea731b058c71",
+      "training_class_counts": {
+        "1": 125,
+        "0": 125
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 500,
+      "seed": 0,
+      "train_auroc": 1.0,
+      "val_auroc": 0.875309,
+      "fit_seconds": 0.3647957920329645,
+      "training_ids_sha256": "5456234fbd8fe13addc95aafbf64c004e448a76d07b695fa6f55f731033ef32a",
+      "training_class_counts": {
+        "1": 250,
+        "0": 250
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 500,
+      "seed": 1,
+      "train_auroc": 1.0,
+      "val_auroc": 0.861572,
+      "fit_seconds": 0.38055654196068645,
+      "training_ids_sha256": "1c6caf93277889a6d142b7f0098a3020f35e96a57bdf6237efe6bc6dc9f85b7a",
+      "training_class_counts": {
+        "0": 250,
+        "1": 250
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 500,
+      "seed": 2,
+      "train_auroc": 1.0,
+      "val_auroc": 0.8729530000000001,
+      "fit_seconds": 0.3818812919780612,
+      "training_ids_sha256": "31b914be1566e93debf6616c81f82390139f9723e189aa45f5a256cc32a29012",
+      "training_class_counts": {
+        "0": 250,
+        "1": 250
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 1000,
+      "seed": 0,
+      "train_auroc": 1.0,
+      "val_auroc": 0.9002190000000001,
+      "fit_seconds": 0.7500130829866976,
+      "training_ids_sha256": "f478d91607272696fef401b80c04246cc0df528b9ff162027c6f4ab417c063b4",
+      "training_class_counts": {
+        "0": 500,
+        "1": 500
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 1000,
+      "seed": 1,
+      "train_auroc": 1.0,
+      "val_auroc": 0.8949670000000001,
+      "fit_seconds": 0.8047033749753609,
+      "training_ids_sha256": "ce4651b44b5e7bf835caa137ef8898a7b1be6303a4bf59f73e4a7a2fde83022f",
+      "training_class_counts": {
+        "0": 500,
+        "1": 500
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 1000,
+      "seed": 2,
+      "train_auroc": 1.0,
+      "val_auroc": 0.895308,
+      "fit_seconds": 0.7664448339492083,
+      "training_ids_sha256": "550166bb0b8ea04e92b42d6f475282fa0a1084d25e123e95f35b73717b529bee",
+      "training_class_counts": {
+        "1": 500,
+        "0": 500
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 2000,
+      "seed": 0,
+      "train_auroc": 1.0,
+      "val_auroc": 0.925603,
+      "fit_seconds": 1.4836991670308635,
+      "training_ids_sha256": "7bb17d08bd9e9ff8945b9bea84487635a91ef799b8909e7ba83d660f82b5a795",
+      "training_class_counts": {
+        "1": 1000,
+        "0": 1000
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 2000,
+      "seed": 1,
+      "train_auroc": 1.0,
+      "val_auroc": 0.92452,
+      "fit_seconds": 1.599933332996443,
+      "training_ids_sha256": "a24d67d4e9dae4683969a8fe9fa3307b5636d473f6d4884a562541369004226c",
+      "training_class_counts": {
+        "1": 1000,
+        "0": 1000
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 2000,
+      "seed": 2,
+      "train_auroc": 1.0,
+      "val_auroc": 0.9228430000000001,
+      "fit_seconds": 1.5654988329624757,
+      "training_ids_sha256": "723150e900416e9bafac1e7b9f463e283a6d5f00fdc06d4656753a5c93fe87e9",
+      "training_class_counts": {
+        "1": 1000,
+        "0": 1000
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 4000,
+      "seed": 0,
+      "train_auroc": 1.0,
+      "val_auroc": 0.94036,
+      "fit_seconds": 3.0906554580433294,
+      "training_ids_sha256": "9afacda412941250f1139457ab0600f7ba555bee8aa476e242b4a1cf7b2b531c",
+      "training_class_counts": {
+        "0": 2000,
+        "1": 2000
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 4000,
+      "seed": 1,
+      "train_auroc": 1.0,
+      "val_auroc": 0.939854,
+      "fit_seconds": 3.210963499965146,
+      "training_ids_sha256": "5f8d5632e82ea1bc8895e113aa0912a490a5b211a11479f67a62fd4a39edc53a",
+      "training_class_counts": {
+        "1": 2000,
+        "0": 2000
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 4000,
+      "seed": 2,
+      "train_auroc": 1.0,
+      "val_auroc": 0.940632,
+      "fit_seconds": 3.102442584000528,
+      "training_ids_sha256": "33af30a80de27b90f619b9948c97231c2bd4885968c8f1ab25fdf1b0bba5c31a",
+      "training_class_counts": {
+        "1": 2000,
+        "0": 2000
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 5000,
+      "seed": 0,
+      "train_auroc": 1.0,
+      "val_auroc": 0.943963,
+      "fit_seconds": 4.131333499914035,
+      "training_ids_sha256": "cccd38218b97d0d39cc22fd1d666888512c5f2566411b81076a0b0d370c72e68",
+      "training_class_counts": {
+        "1": 2500,
+        "0": 2500
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 5000,
+      "seed": 1,
+      "train_auroc": 1.0,
+      "val_auroc": 0.9419389999999999,
+      "fit_seconds": 3.8825493750628084,
+      "training_ids_sha256": "2b4e942306527fb940fbf571aacbd778c1a44bef2d48f1864aaf7e58ea824cec",
+      "training_class_counts": {
+        "0": 2500,
+        "1": 2500
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 5000,
+      "seed": 2,
+      "train_auroc": 1.0,
+      "val_auroc": 0.9439150000000001,
+      "fit_seconds": 3.871360250050202,
+      "training_ids_sha256": "3c8ec6fc7283b043ca7aa9a5b55c2a03719c4150a457c2ac8fcde58e85c9f5e1",
+      "training_class_counts": {
+        "1": 2500,
+        "0": 2500
+      }
+    },
+    {
+      "model": "tfidf_logreg",
+      "n_train": 8000,
+      "seed": 0,
+      "train_auroc": 0.999999875,
+      "val_auroc": 0.9506439999999999,
+      "fit_seconds": 6.672107583028264,
+      "training_ids_sha256": "bacd981658077c5cf7a5c2801d574a723f44c34b0fb6703a924ba6dc7cb884de",
+      "training_class_counts": {
+        "0": 4000,
+        "1": 4000
+      }
+    }
+  ],
+  "validation_rows": 2000,
+  "summary": "Mean +/- sample SD; n=8000 is one distinct full-pool fit, not an uncertainty estimate."
+}

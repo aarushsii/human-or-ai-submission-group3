@@ -14,7 +14,8 @@ Cornell Tech CS 5785 Applied Machine Learning, Fall 2026.
 git clone https://github.com/aarushsii/Kaggle_Group3_Competition.git
 cd Kaggle_Group3_Competition
 python -m venv .venv && source .venv/bin/activate   # or use conda
-pip install -r requirements.txt
+pip install -r submissions/group-number-3/requirements.txt
+cd submissions/group-number-3
 ```
 
 ### Data
@@ -65,15 +66,33 @@ All reported validation scores use these shared splits so results are comparable
 
 ## Experiments
 
-| # | Experiment | Report section | Notebook |
+| # | Experiment | Report section | Entrypoint |
 |---|-----------|----------------|----------|
 | 1 | Baseline: TF-IDF (word + char n-grams) + Logistic Regression | Model comparison | `experiments/01_baseline_tfidf_logreg.ipynb` |
 | 2 | Model comparison (NB, SVM, boosting, neural) | Model comparison | `experiments/02_model_comparison.ipynb` |
-| 3 | Learning curves vs. training set size | Effect of data size | `experiments/03_learning_curves.ipynb` |
-| 4 | Pseudo-labeling with `unlabeled.csv` | Unlabeled data | `experiments/04_pseudo_labeling.ipynb` |
+| 3 | Learning curves vs. training set size | Effect of data size | `src/person_b.py q2` |
+| 4 | Pseudo-labeling with `unlabeled.csv` | Unlabeled data | `src/person_b.py q3` |
 | 5 | Error analysis and generalization | Generalization | `experiments/05_error_analysis.ipynb` |
 
 ## Results
+
+### Person B: completion of Aarushi's shared experiments
+
+Original Person B methods and reference results: Aarushi. Missing rubric items and integration: Yuchen Feng (`yf467`), with Codex assistance.
+
+From the repository root:
+
+```bash
+.venv/bin/python submissions/group-number-3/src/complete_person_b.py
+```
+
+This rebuilds TF-IDF learning curves with the existing seeds 0/1/2, adds 5,000 rows and training AUROC, preserves Aarushi's original style validation points and Q3 reference table, and prepares the required report tables/figure. The original teacher-linked data and fixed committed split are checked by hash. No new split or Kaggle submission is generated.
+
+- Q2 primary table/figure: `results/learning_curve_required.csv` and `results/learning_curve_train_val.png`; validation means for 500/1000/2000/5000/8000 are 0.869945/0.896831/0.924322/0.943272/0.950644.
+- Q3 primary reference: Aarushi's unchanged `results/pseudo_label.csv`; `results/pseudo_label_report.csv` extracts control 0.9506 and style teacher 0.9537 (threshold 0.95, 2612 pseudo-labels). Threshold selection on the same validation fold is exploratory.
+- A separate local repeat is in `results/person_b_team_recheck/`: style teacher selected 2609 and reached 0.954365 versus 0.950644. Its different style scores are not substituted into the primary table.
+- Completed Q2/Q3 text and LaTeX, figure, contribution and AI-use material: [report package](report/README.md). Overleaf is still pending.
+- [Runbook](PERSON_B_RUNBOOK.md) documents exact commands, environment and provenance. Earlier seed42/frozen-feature experiments under `results/person_b/` are supplementary historical studies.
 
 | Model | Val AUROC (random) | Val AUROC (OOD) | Public LB |
 |-------|-------------------|-----------------|-----------|
