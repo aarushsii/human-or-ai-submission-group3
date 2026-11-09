@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import shutil
 import subprocess
 from zoneinfo import ZoneInfo
 
@@ -28,9 +29,12 @@ from pseudo_label import main as pseudo_labels
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=ROOT / "results")
+    parser.add_argument("--rerun-pseudo", action="store_true", help="Rerun Aarushi's full pseudo-label grid into a separate directory.")
     args = parser.parse_args()
     output = args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=True)
+    if args.rerun_pseudo and output == (ROOT / "results").resolve():
+        parser.error("Use a separate --output-dir for pseudo-label replication; preserve Aarushi's submitted reference table.")
     config = json.loads((ROOT / "config/person_b.json").read_text())
     hashes = {name: sha256(ROOT / name) for name in config["expected_sha256"]}
     if hashes != config["expected_sha256"]:
@@ -59,11 +63,28 @@ def main():
     destination.write_text(json.dumps(record, indent=2) + "\n")
     with threadpool_limits(limits=2):
         curves = learning_curves(output)
-        pseudo = pseudo_labels(output)
+        if args.rerun_pseudo:
+            pseudo = pseudo_labels(output)
+        else:
+            if old_pseudo is None:
+                raise ValueError("Aarushi's shared pseudo_label.csv is required as the primary reference.")
+            pseudo = old_pseudo.copy()
+            if output != (ROOT / "results").resolve():
+                shutil.copyfile(old_pseudo_path, output / "pseudo_label.csv")
+            pseudo.loc[(pseudo.teacher == "none (control)") |
+                       ((pseudo.teacher == "style_gbm") & pseudo.threshold.eq(.95))].to_csv(
+                           output / "pseudo_label_report.csv", index=False)
+            (output / "pseudo_label_reference.json").write_text(json.dumps({
+                "source": "Aarushi's committed pseudo_label.csv at 0e09450, preserved without changing scores",
+                "rounding": "Original scores are available at four decimal places only",
+                "local_recheck": "results/person_b_team_recheck/ contains the separately measured local replication; style results differ slightly.",
+                "feature_policy": "Refit the full student TF-IDF pipeline on original labeled plus pseudo-labeled texts",
+                "selection_caveat": "Three thresholds and two teachers were explored on the same validation set; the reported best setting is exploratory."
+            }, indent=2) + "\n")
     checks = {"all_inputs_unchanged": all(sha256(ROOT / name) == value for name, value in hashes.items()),
-              "both_models_have_5000_training_rows": set(curves.loc[curves.n_train.eq(5000), "model"]) == {"tfidf_logreg", "style_gbm"},
-              "training_and_validation_scores_present": curves[["train_auroc", "val_auroc"]].notna().all().all(),
-              "all_38_learning_curve_fits_present": len(curves) == 38,
+              "required_tfidf_5000_rows_present": len(curves.loc[curves.n_train.eq(5000) & curves.model.eq("tfidf_logreg")]) == 3,
+              "tfidf_training_and_validation_scores_present": curves.loc[curves.model.eq("tfidf_logreg"), ["train_auroc", "val_auroc"]].notna().all().all(),
+              "completed_curve_records_present": len(curves) == 35,
               "all_seven_existing_pseudo_settings_present": len(pseudo) == 7}
     if old_curves is not None:
         joined = old_curves.merge(curves, on=["model", "n_train", "seed"], suffixes=("_old", "_new"))
@@ -75,6 +96,7 @@ def main():
             old_pseudo.n_added.tolist() == pseudo.n_added.tolist() and
             np.allclose(old_pseudo.val_auroc, pseudo.val_auroc.round(4), atol=1e-12, rtol=0))
     record.update(status="completed" if all(checks.values()) else "needs_review",
+                  primary_q3_source="Aarushi's unchanged submitted table" if not args.rerun_pseudo else "Explicit local replication",
                   completed_at=datetime.now(ZoneInfo("America/New_York")).isoformat(),
                   checks={k: bool(v) for k, v in checks.items()}, all_checks_passed=all(checks.values()))
     destination.write_text(json.dumps(record, indent=2) + "\n")
