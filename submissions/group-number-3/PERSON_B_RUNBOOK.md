@@ -30,6 +30,8 @@ The environment is locked in `requirements-person-b.lock.txt`. On this Mac, the 
 
 Run the fitting stages sequentially. The runner limits native numerical libraries to two threads and retains sparse matrices. It refuses to overwrite a completed stage, preserves failure records, checks its own cache hash, and records source-code hashes and Git commits. Keep the default result directory for the primary run. For a fresh reproduction, provide the **same new directory** to all four commands, for example `--output-dir submissions/group-number-3/results/person_b_reproduction`; allow several minutes and adequate memory. A cache may be reused only as the already fitted full-pool control within that protocol; `baseline` itself always fits from scratch.
 
+Finish baseline → Q2 → Q3 in one output directory before starting another reproduction of the same protocol. The disposable model cache is shared per protocol, and a fresh baseline replaces it; this does not change saved result tables, but an earlier unfinished run will reject a cache whose file hash no longer matches. Concurrent runs of the same protocol are not supported.
+
 ## Outputs
 
 `results/person_b/` contains `run_manifest.json`, stage completion/failure records, baseline scores, five-row learning-curve table and PNG/SVG, subset IDs and held-out predictions, plus the two-row Q3 comparison and selected pseudo-label IDs. No raw passages are included in these result artifacts. Each completed experiment should receive a descriptive local commit; pushing and the internal team PR are a later delivery step.

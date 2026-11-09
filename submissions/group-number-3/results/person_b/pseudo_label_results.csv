@@ -1,0 +1,3 @@
+method,labeled_rows,pseudo_rows,validation_auroc,delta_vs_supervised
+Supervised only,8000,0,0.950644,0
+With unlabeled data,8000,628,0.95017,-0.000474

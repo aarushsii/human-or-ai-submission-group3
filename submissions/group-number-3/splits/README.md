@@ -8,7 +8,7 @@
 - `random_fold`: 8,000 training / 2,000 validation, stratified with 4,000/4,000 training labels and 1,000/1,000 validation labels. Assignments match the existing SEED=42 split logic.
 - `ood_fold`: 7,541 training / 2,459 validation. Whole clusters 5, 6 and 0 are held out according to the existing rule.
 
-The installed file's hash, counts, official training-data hash and loader checks are recorded in `shared_split_manifest.json`. Existing `load_splits()` and `get_split()` read this file successfully. No baseline or Person B experiment has been run yet.
+The installed file's hash, counts, official training-data hash and loader checks are recorded in `shared_split_manifest.json`. Existing `load_splits()` and `get_split()` read this file successfully. That manifest describes installation before model fitting; subsequent baseline and Person B results are recorded separately in `results/person_b/`.
 
 Use this fixed file for comparisons. Do not run the split-generation entrypoint as part of routine experiment setup. If the team adopts a different file later, record its new hash and re-evaluate the common baseline.
 

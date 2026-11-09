@@ -1,0 +1,36 @@
+{
+  "low_threshold": 0.05,
+  "high_threshold": 0.95,
+  "rounds": 1,
+  "pseudo_label_weight": 1.0,
+  "labeled_training_rows": 8000,
+  "unlabeled_rows": 3000,
+  "selected_rows": 628,
+  "pseudo_human_rows": 247,
+  "pseudo_ai_rows": 381,
+  "selected_unlabeled_ids_sha256": "43d58c59fa33df568e77c64a0651fe0921a09b1acc4ff0ba3ceb7390dccc7785",
+  "validation_rows": 2000,
+  "validation_ids_sha256": "f07cd5a4819ae44827b54d9fe8865a21962e9034c1f2c26dd76138eb05b6f2fc",
+  "supervised_validation_auroc": 0.9506439999999999,
+  "with_unlabeled_validation_auroc": 0.95017,
+  "delta_validation_auroc": -0.00047399999999997444,
+  "classifier_fit_seconds": 1.546847457997501,
+  "total_q3_seconds": 8.966404792037793,
+  "classifier_iterations": [
+    47
+  ],
+  "feature_fingerprint_before": "bbab798b1461d7e5b46cc191dc109228a50e84e38351630fb6cd38e10e34c315",
+  "feature_fingerprint_after": "bbab798b1461d7e5b46cc191dc109228a50e84e38351630fb6cd38e10e34c315",
+  "features_unchanged": true,
+  "initial_probability_quantiles": [
+    0.0021054761125847486,
+    0.032286207702838375,
+    0.15171217718434937,
+    0.39944065897275216,
+    0.8434379777386519,
+    0.9811999447101811,
+    0.9985516605115337
+  ],
+  "warnings": [],
+  "no_selection_action": null
+}

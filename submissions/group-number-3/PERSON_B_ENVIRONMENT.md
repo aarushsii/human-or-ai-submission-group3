@@ -1,6 +1,6 @@
 # Person B Python environment
 
-Verified locally on November 9, 2026. This is environment setup for Q2/Q3, not an experiment result or a reproduction of the historical AUROC.
+Verified locally on November 9, 2026. This is the original environment-setup record. Subsequent baseline/Q2/Q3 measurements are in `results/person_b/`; statements about experiments not yet having run below describe setup time.
 
 ## Verified configuration
 

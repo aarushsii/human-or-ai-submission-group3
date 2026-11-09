@@ -1,6 +1,6 @@
 # Person B data readiness
 
-Checked on November 9, 2026, America/New_York. This is a local input-data audit, not a model result.
+Checked on November 9, 2026, America/New_York. This is a local input-data audit, not a model result. Statements about models not yet having run describe the original audit time; the shared split was subsequently installed unchanged and baseline/Q2/Q3 results are recorded in `results/person_b/`.
 
 ## Official source verified
 
