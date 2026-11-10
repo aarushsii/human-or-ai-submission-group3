@@ -1,8 +1,0 @@
-START baseline: 2026-11-09T19:58:57.558057+00:00
-  Fit TF-IDF on 8,000 labeled training rows only
-  Sparse features (8000, 300928), nnz=13,466,277; fit classifier
-  Train AUROC=1.000000, validation AUROC=0.950644, fit=6.4s
-  Fit TF-IDF on 7,541 labeled training rows only
-  Sparse features (7541, 277224), nnz=12,360,834; fit classifier
-  Train AUROC=1.000000, validation AUROC=0.935863, fit=5.6s
-COMPLETE baseline: 16.2s

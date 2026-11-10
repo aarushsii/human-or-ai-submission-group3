@@ -1,5 +1,0 @@
-START q3: 2026-11-09T20:00:02.619534+00:00
-  Fixed thresholds selected 628/3,000 unlabeled rows; pseudo-human=247, pseudo-AI=381
-  Refit classifier only on 8,628 sparse rows; TF-IDF frozen
-  Q3 validation AUROC=0.950170, delta=-0.000474
-COMPLETE q3: 9.7s

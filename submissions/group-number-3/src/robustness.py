@@ -76,6 +76,7 @@ def perturb(va, fn, ai_only):
 
 
 def main():
+    (ROOT / "results").mkdir(parents=True, exist_ok=True)
     train, splits = load_train(), load_splits()
     tr, va = get_split(train, splits, "random_fold")
 

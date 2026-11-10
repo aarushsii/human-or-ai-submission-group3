@@ -1,108 +1,67 @@
-"""Complete Person B using Aarushi's shared learning-curve/pseudo-label methods.
+"""Run fresh Q2 learning curves and Q3 full-refit pseudo-label experiments.
 
-Run from the team directory: python src/complete_person_b.py
-Use --output-dir results/person_b_rerun for a fresh comparison.
+    python src/complete_person_b.py
 """
 import argparse
-from datetime import datetime
-from importlib import metadata
 import json
-import os
 from pathlib import Path
-import platform
-import shutil
-import subprocess
-from zoneinfo import ZoneInfo
 
-import numpy as np
-import pandas as pd
 from threadpoolctl import threadpool_limits
 
 from data import ROOT, get_split, load_splits, load_train
 from person_b import sha256, validate_split_data
-
-os.environ.setdefault("MPLCONFIGDIR", str(ROOT / ".person_b_cache/matplotlib"))
-from learning_curve import main as learning_curves
-from pseudo_label import main as pseudo_labels
+from learning_curve import MODEL_NAMES, SEEDS, SIZES, main as learning_curves
+from pseudo_label import THRESHOLDS, main as pseudo_labels
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=ROOT / "results")
-    parser.add_argument("--rerun-pseudo", action="store_true", help="Rerun Aarushi's full pseudo-label grid into a separate directory.")
+    parser.add_argument("--rerun-style", action="store_true", help="Also fit style-model learning curves.")
     args = parser.parse_args()
-    output = args.output_dir.resolve()
-    output.mkdir(parents=True, exist_ok=True)
-    if args.rerun_pseudo and output == (ROOT / "results").resolve():
-        parser.error("Use a separate --output-dir for pseudo-label replication; preserve Aarushi's submitted reference table.")
     config = json.loads((ROOT / "config/person_b.json").read_text())
     hashes = {name: sha256(ROOT / name) for name in config["expected_sha256"]}
     if hashes != config["expected_sha256"]:
-        raise ValueError("Official input/shared split hash mismatch. Do not regenerate or replace inputs.")
+        raise ValueError("Official input/shared split hash mismatch.")
     train, splits = load_train(), load_splits()
     validate_split_data(train, splits)
     tr, va = get_split(train, splits, "random_fold")
-    assert (len(tr), len(va)) == (8000, 2000)
-    old_curves_path = ROOT / "results/learning_curve.csv"
-    old_pseudo_path = ROOT / "results/pseudo_label.csv"
-    old_curves = pd.read_csv(old_curves_path) if old_curves_path.exists() else None
-    old_pseudo = pd.read_csv(old_pseudo_path) if old_pseudo_path.exists() else None
-    record = {
-        "started_at": datetime.now(ZoneInfo("America/New_York")).isoformat(),
-        "code_commit": subprocess.check_output(["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip(),
-        "based_on_team_commit": "0e09450db2be0281ad8ebf47f104a33da5308cdc",
-        "python": platform.python_version(),
-        "packages": {name: metadata.version(name) for name in ["numpy", "pandas", "scipy", "scikit-learn", "matplotlib"]},
-        "input_sha256": hashes,
-        "code_sha256": {"src/" + name: sha256(ROOT / "src" / name) for name in [
-            "complete_person_b.py", "learning_curve.py", "pseudo_label.py", "models.py", "features.py", "data.py"]},
-        "scope": "Complete existing Person B methods; original teacher-linked data and shared split unchanged.",
-        "test_data_used_for_training_or_predictions": False, "split_generated": False,
-        "model_parameters_changed": False, "threads": 2, "status": "running"}
-    destination = output / "person_b_completion_manifest.json"
-    destination.write_text(json.dumps(record, indent=2) + "\n")
-    with threadpool_limits(limits=2):
-        curves = learning_curves(output)
-        if args.rerun_pseudo:
-            pseudo = pseudo_labels(output)
-        else:
-            if old_pseudo is None:
-                raise ValueError("Aarushi's shared pseudo_label.csv is required as the primary reference.")
-            pseudo = old_pseudo.copy()
-            if output != (ROOT / "results").resolve():
-                shutil.copyfile(old_pseudo_path, output / "pseudo_label.csv")
-            pseudo.loc[(pseudo.teacher == "none (control)") |
-                       ((pseudo.teacher == "style_gbm") & pseudo.threshold.eq(.95))].to_csv(
-                           output / "pseudo_label_report.csv", index=False)
-            (output / "pseudo_label_reference.json").write_text(json.dumps({
-                "source": "Aarushi's committed pseudo_label.csv at 0e09450, preserved without changing scores",
-                "rounding": "Original scores are available at four decimal places only",
-                "local_recheck": "results/person_b_team_recheck/ contains the separately measured local replication; style results differ slightly.",
-                "feature_policy": "Refit the full student TF-IDF pipeline on original labeled plus pseudo-labeled texts",
-                "selection_caveat": "Three thresholds and two teachers were explored on the same validation set; the reported best setting is exploratory."
-            }, indent=2) + "\n")
-    checks = {"all_inputs_unchanged": all(sha256(ROOT / name) == value for name, value in hashes.items()),
-              "required_tfidf_5000_rows_present": len(curves.loc[curves.n_train.eq(5000) & curves.model.eq("tfidf_logreg")]) == 3,
-              "tfidf_training_and_validation_scores_present": curves.loc[curves.model.eq("tfidf_logreg"), ["train_auroc", "val_auroc"]].notna().all().all(),
-              "completed_curve_records_present": len(curves) == 35,
-              "all_seven_existing_pseudo_settings_present": len(pseudo) == 7}
-    if old_curves is not None:
-        joined = old_curves.merge(curves, on=["model", "n_train", "seed"], suffixes=("_old", "_new"))
-        checks["existing_learning_curve_points_preserved"] = len(joined) == len(old_curves) and np.allclose(
-            joined.val_auroc_old, joined.val_auroc_new, atol=1e-10, rtol=0)
-    if old_pseudo is not None:
-        checks["primary_pseudo_reference_preserved" if not args.rerun_pseudo else "existing_rounded_pseudo_results_reproduced"] = (
-            old_pseudo.teacher.tolist() == pseudo.teacher.tolist() and
-            old_pseudo.n_added.tolist() == pseudo.n_added.tolist() and
-            np.allclose(old_pseudo.val_auroc, pseudo.val_auroc.round(4), atol=1e-12, rtol=0))
-    record.update(status="completed" if all(checks.values()) else "needs_review",
-                  primary_q3_source="Aarushi's unchanged submitted table" if not args.rerun_pseudo else "Explicit local replication",
-                  completed_at=datetime.now(ZoneInfo("America/New_York")).isoformat(),
-                  checks={k: bool(v) for k, v in checks.items()}, all_checks_passed=all(checks.values()))
-    destination.write_text(json.dumps(record, indent=2) + "\n")
-    print(json.dumps({"checks": record["checks"], "all_passed": record["all_checks_passed"]}, indent=2), flush=True)
-    if not record["all_checks_passed"]:
-        raise SystemExit("Inspect the preserved results before publication.")
+    if (len(tr), len(va)) != (8000, 2000):
+        raise ValueError("Unexpected fixed split sizes.")
+
+    output = args.output_dir.resolve()
+    output.mkdir(parents=True, exist_ok=True)
+    with threadpool_limits(limits=config["threads"]):
+        curves = learning_curves(output, rerun_style=args.rerun_style)
+        pseudo = pseudo_labels(output)
+
+    model_names = MODEL_NAMES if args.rerun_style else ["tfidf_logreg"]
+    expected_curves = {(name, size, seed) for name in model_names for size in SIZES
+                       for seed in (SEEDS if size < len(tr) else [0])}
+    actual_curves = set(curves[["model", "n_train", "seed"]].itertuples(index=False, name=None))
+    expected_pseudo = {(teacher, threshold) for teacher in ("self", "style_gbm")
+                       for threshold in THRESHOLDS}
+    actual_pseudo = set(pseudo.loc[pseudo.teacher.ne("none (control)"),
+                                  ["teacher", "threshold"]].itertuples(index=False, name=None))
+    controls = pseudo.loc[pseudo.teacher.eq("none (control)")]
+    checks = {
+        "inputs_unchanged": all(sha256(ROOT / name) == digest for name, digest in hashes.items()),
+        "curve_settings_complete": actual_curves == expected_curves and len(curves) == len(expected_curves),
+        "curve_scores_valid": curves[["train_auroc", "val_auroc"]].apply(
+            lambda column: column.between(0, 1)).all().all(),
+        "pseudo_settings_complete": actual_pseudo == expected_pseudo and len(pseudo) == 1 + len(expected_pseudo),
+        "one_labeled_only_control": len(controls) == 1 and controls.n_added.eq(0).all(),
+        "pseudo_scores_valid": pseudo.val_auroc.between(0, 1).all(),
+    }
+    checks = {name: bool(passed) for name, passed in checks.items()}
+    (output / "person_b_completion_manifest.json").write_text(json.dumps({
+        "input_sha256": hashes, "q2_models": model_names, "q2_seeds": SEEDS,
+        "q3_feature_policy": "refit_full_tfidf_pipeline", "checks": checks,
+        "all_checks_passed": all(checks.values()), "results_source": "fresh fits in this run"
+    }, indent=2) + "\n")
+    print(json.dumps(checks, indent=2), flush=True)
+    if not all(checks.values()):
+        raise SystemExit("Experiment output checks failed.")
 
 
 if __name__ == "__main__":

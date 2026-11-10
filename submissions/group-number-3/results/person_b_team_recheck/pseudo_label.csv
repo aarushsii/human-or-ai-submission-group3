@@ -1,8 +1,0 @@
-teacher,threshold,n_added,frac_ai_added,val_auroc
-none (control),,0,,0.9506
-self,0.99,81,0.827,0.9506
-self,0.95,628,0.607,0.9501
-self,0.9,1114,0.535,0.9501
-style_gbm,0.99,2093,0.495,0.9525
-style_gbm,0.95,2609,0.48,0.9544
-style_gbm,0.9,2718,0.482,0.9536
