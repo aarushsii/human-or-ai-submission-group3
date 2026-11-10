@@ -25,6 +25,7 @@ def rank(x):
 
 
 def main():
+    (ROOT / "results").mkdir(parents=True, exist_ok=True)
     p = argparse.ArgumentParser()
     p.add_argument("--mode", choices=["val", "test"], default="val")
     p.add_argument("--transformer", default="distilroberta-base")
@@ -35,7 +36,10 @@ def main():
     args = p.parse_args()
 
     if args.mode == "val":
-        trf = pd.read_csv(ROOT / "results" / f"val_probs_{args.transformer}.csv")
+        predictions = ROOT / "results" / f"val_probs_{args.transformer}.csv"
+        if not predictions.exists():
+            p.error("Run finetune_transformer.py --mode val with the corresponding model settings first.")
+        trf = pd.read_csv(predictions)
         train, splits = load_train(), load_splits()
         tr, va = get_split(train, splits, "random_fold")
         lr = tfidf_logreg().fit(tr["text"], tr["label"])

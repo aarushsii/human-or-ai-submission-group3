@@ -42,9 +42,8 @@ def main():
     splits = pd.read_csv(ROOT / "splits/splits.csv", dtype={"id": "string"})
     val_ids = set(splits.loc[splits.random_fold.eq("val"), "id"])
     pool_ids = set(splits.loc[splits.random_fold.eq("train"), "id"])
-    audit = read(ROOT / "person_b_data_audit.json")
-    checks["five_official_inputs_unchanged"] = all(
-        sha256(ROOT / "data" / name) == info["sha256"] for name, info in audit["files"].items())
+    checks["protocol_inputs_unchanged"] = all(
+        sha256(ROOT / name) == digest for name, digest in a["input_sha256"].items())
     checks["fixed_shared_split_unchanged"] = sha256(ROOT / "splits/splits.csv") == a["input_sha256"]["splits/splits.csv"]
 
     baseline_a, baseline_b = read(reference / "baseline_results.json"), read(candidate / "baseline_results.json")

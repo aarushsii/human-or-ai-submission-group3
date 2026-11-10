@@ -1,9 +1,0 @@
-{
-  "stage": "q3",
-  "code_commit": "143a3e95f2267c3248cb977a28418d440c895f6f",
-  "protocol_signature": "505491e1ad503a28c60f9306255d563ba867a6dff76c8f09697b8a5a4dbef6e1",
-  "status": "failed",
-  "elapsed_seconds": 18.078760415897705,
-  "traceback": "Traceback (most recent call last):\n  File \"<REPOSITORY_ROOT>/submissions/group-number-3/src/person_b.py\", line 209, in stage\n    yield\n  File \"<REPOSITORY_ROOT>/submissions/group-number-3/src/person_b.py\", line 472, in main\n    {\"baseline\": run_baseline, \"q2\": run_q2, \"q3\": run_q3}[args.stage](ctx)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^\n  File \"<REPOSITORY_ROOT>/submissions/group-number-3/src/person_b.py\", line 416, in run_q3\n    raise ValueError(\"The Q3 experiment changed the frozen TF-IDF representation.\")\nValueError: The Q3 experiment changed the frozen TF-IDF representation.\n",
-  "path_note": "Absolute local repository prefixes are represented by <REPOSITORY_ROOT>."
-}

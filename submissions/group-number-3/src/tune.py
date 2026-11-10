@@ -15,6 +15,7 @@ C_VALUES = [0.25, 0.5, 1, 2, 4, 8, 16, 32]
 
 
 def main():
+    (ROOT / "results").mkdir(parents=True, exist_ok=True)
     train, splits = load_train(), load_splits()
     tr, va = get_split(train, splits, "random_fold")
 

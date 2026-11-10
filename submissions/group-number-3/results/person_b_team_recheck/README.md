@@ -1,5 +1,0 @@
-# Separate local replication of Aarushi's methods
-
-This contains an actual full rerun of both learning-curve models and all six teacher/threshold settings plus control, using the verified official data and unchanged shared split. The TF-IDF learning points matched the submitted values exactly. Style-model scores and selected pseudo-label counts differed slightly: style teacher at 0.95 selected 2609 rows and reached 0.954365 versus 0.950644, whereas Aarushi's original table reports 2612 and 0.9537 versus 0.9506.
-
-The exact-comparison guard stopped publication of these results as replacements. Its needs_review record and console output are retained. This is not evidence of changed data; original hashes were unchanged. The cause was not isolated; the original complete library environment is unavailable. The submitted reference remains primary, and this run is additional replication evidence with its own parameters/source hashes. It is not a new independent validation fold or a reason to pick the higher number.
