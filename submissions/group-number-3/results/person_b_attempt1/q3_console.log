@@ -2,12 +2,12 @@ START q3: 2026-11-09T19:55:49.285260+00:00
   Fixed thresholds selected 628/3,000 unlabeled rows; pseudo-human=247, pseudo-AI=381
   Refit classifier only on 8,628 sparse rows; TF-IDF frozen
 Traceback (most recent call last):
-  File "/Users/fengyuchen/Documents/Codex/cornell 26fall/aml学习路径/Kaggle_Group3_Competition/submissions/group-number-3/src/person_b.py", line 476, in <module>
+  File "<REPOSITORY_ROOT>/submissions/group-number-3/src/person_b.py", line 476, in <module>
     main()
     ~~~~^^
-  File "/Users/fengyuchen/Documents/Codex/cornell 26fall/aml学习路径/Kaggle_Group3_Competition/submissions/group-number-3/src/person_b.py", line 472, in main
+  File "<REPOSITORY_ROOT>/submissions/group-number-3/src/person_b.py", line 472, in main
     {"baseline": run_baseline, "q2": run_q2, "q3": run_q3}[args.stage](ctx)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
-  File "/Users/fengyuchen/Documents/Codex/cornell 26fall/aml学习路径/Kaggle_Group3_Competition/submissions/group-number-3/src/person_b.py", line 416, in run_q3
+  File "<REPOSITORY_ROOT>/submissions/group-number-3/src/person_b.py", line 416, in run_q3
     raise ValueError("The Q3 experiment changed the frozen TF-IDF representation.")
 ValueError: The Q3 experiment changed the frozen TF-IDF representation.

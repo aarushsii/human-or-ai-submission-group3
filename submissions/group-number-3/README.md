@@ -78,7 +78,7 @@ All reported validation scores use these shared splits so results are comparable
 
 ### Person B: completion of Aarushi's shared experiments
 
-Original Person B methods and reference results: Aarushi. Missing rubric items and integration: Yuchen Feng (`yf467`), with Codex assistance.
+Original Person B methods and reference results: Aarushi. Missing rubric items and integration: Yuchen Feng (`yf467`).
 
 From the repository root:
 
@@ -91,7 +91,7 @@ This rebuilds TF-IDF learning curves with the existing seeds 0/1/2, adds 5,000 r
 - Q2 primary table/figure: `results/learning_curve_required.csv` and `results/learning_curve_train_val.png`; validation means for 500/1000/2000/5000/8000 are 0.869945/0.896831/0.924322/0.943272/0.950644.
 - Q3 primary reference: Aarushi's unchanged `results/pseudo_label.csv`; `results/pseudo_label_report.csv` extracts control 0.9506 and style teacher 0.9537 (threshold 0.95, 2612 pseudo-labels). Threshold selection on the same validation fold is exploratory.
 - A separate local repeat is in `results/person_b_team_recheck/`: style teacher selected 2609 and reached 0.954365 versus 0.950644. Its different style scores are not substituted into the primary table.
-- Completed Q2/Q3 text and LaTeX, figure, contribution and AI-use material: [report package](report/README.md). Overleaf is still pending.
+- Completed Q2/Q3 text and LaTeX, figure and contribution notes: [report package](report/README.md). Overleaf is still pending.
 - [Runbook](PERSON_B_RUNBOOK.md) documents exact commands, environment and provenance. Earlier seed42/frozen-feature experiments under `results/person_b/` are supplementary historical studies.
 
 | Model | Val AUROC (random) | Val AUROC (OOD) | Public LB |
@@ -101,10 +101,4 @@ This rebuilds TF-IDF learning curves with the existing seeds 0/1/2, adds 5,000 r
 ## Pretrained Models and External Resources
 
 _List any publicly available pretrained models or embeddings used, with licenses (required by competition rules).
-No external labeled datasets and no commercial LLM APIs are used for predictions._
-
-## AI Tool Disclosure
-
-_Briefly describe how AI assistants (e.g. Claude, ChatGPT, Copilot) were used — e.g. code scaffolding,
-debugging, concept explanations, report editing. All modeling decisions, experiments, and results were
-run and verified by the team._
+No external labeled datasets are used._

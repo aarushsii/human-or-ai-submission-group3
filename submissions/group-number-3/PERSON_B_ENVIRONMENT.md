@@ -75,7 +75,3 @@ No competition CSV was loaded or copied. No split was generated or modified. No 
 - [Official scikit-learn installation guide](https://scikit-learn.org/stable/install.html)
 - [scikit-learn package metadata and wheels](https://pypi.org/project/scikit-learn/)
 - [SciPy package metadata and Python support](https://pypi.org/project/scipy/)
-
-## 中文说明
-
-第三步已完成：项目已有独立的 Python 工具箱，依赖已安装并通过基本验证。版本锁定文件用于记录这次实际装了什么；它不表示已经复现队友成绩。当前没有读取比赛数据、训练模型或动切分文件，VS Code 的项目打开和解释器选择也还未进行。

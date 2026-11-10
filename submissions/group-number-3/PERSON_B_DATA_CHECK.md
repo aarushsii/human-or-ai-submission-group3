@@ -47,10 +47,6 @@ All 31 local data-quality checks passed; official-source verification also passe
 - The raw data and the new audit records have not been uploaded to GitHub. This audit report contains counts and hashes, with no raw passages or ID lists.
 - The next preparation step can be writing Person B experiment entrypoints that require an explicit validated shared split. Comparable baseline/Q2/Q3 results still require the shared split to be settled.
 
-## 中文说明
-
-第四步已完成：五份数据已经放到真正的团队项目里，原有读取函数能找到它们，检查全部通过。原始 CSV 保留原样且被 Git 忽略，不会因为普通代码提交自动进入仓库。`starter` 是训练集子集，提交示例的 0.5 也只是格式占位值。切分文件仍未生成，模型还没有训练。
-
 ## Latest checkpoint
 
 Official source verification completed 2026-11-09T14:26:07.565949-05:00. The account and team were also read: current Kaggle username `yuchenfeng030907`, team `Group Number 3`. Two members were visible: Aarushi Singh and Yuchen Feng; Vivian was not visible in this check. No account or team settings were changed. The Kaggle countdown displayed a closing time of November 11, 2026, 23:59 America/New_York.
