@@ -104,12 +104,16 @@ def main():
     p.add_argument("--batch", type=int, default=16)
     p.add_argument("--max_len", type=int, default=256)
     p.add_argument("--keep_newlines", action="store_true")
+    p.add_argument("--seed", type=int, default=42)
     args = p.parse_args()
 
+    global SEED
+    SEED = args.seed
     torch.manual_seed(SEED)
     np.random.seed(SEED)
     device = pick_device()
-    tag = args.model.rstrip("/").split("/")[-1] + ("_nl" if args.keep_newlines else "")
+    tag = (args.model.rstrip("/").split("/")[-1] + ("_nl" if args.keep_newlines else "")
+           + (f"_s{args.seed}" if args.seed != 42 else ""))
     print(f"Device: {device} | model: {args.model} | mode: {args.mode} | "
           f"epochs={args.epochs} lr={args.lr} batch={args.batch} max_len={args.max_len} "
           f"keep_newlines={args.keep_newlines}", flush=True)
