@@ -8,3 +8,4 @@
 {"model": "ppl_gbm", "lm": "gpt2", "timestamp": "2026-11-09T19:24:35", "random_fold_auroc": 0.9706, "train_auroc": 0.9995}
 {"model": "ppl2_gbm", "lms": ["gpt2", "gpt2-medium"], "timestamp": "2026-11-09T20:40:52", "random_fold_auroc": 0.9754, "train_auroc": 1.0}
 {"model": "roberta-base", "timestamp": "2026-11-09T21:29:39", "random_fold_auroc": 0.9926, "train_auroc": 0.9971, "train_time_s": 1347, "mode": "val", "epochs": 2, "lr": 2e-05, "batch": 8, "max_len": 256, "keep_newlines": false, "seed": 42}
+{"model": "tfidf_logreg", "timestamp": "2026-11-11T15:30:46", "random_fold_auroc": 0.9506, "ood_fold_auroc": 0.9359}
