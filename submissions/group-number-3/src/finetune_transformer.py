@@ -96,6 +96,7 @@ def train(model, loader, device, epochs, lr, eval_fn=None):
 
 
 def main():
+    (ROOT / "results").mkdir(parents=True, exist_ok=True)
     p = argparse.ArgumentParser()
     p.add_argument("--mode", choices=["val", "full"], default="val")
     p.add_argument("--model", default="distilroberta-base")

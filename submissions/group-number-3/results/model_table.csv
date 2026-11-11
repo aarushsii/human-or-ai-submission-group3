@@ -1,7 +1,0 @@
-model,representation,train_auroc,val_auroc,train_time_s
-style_gbm,26 stylometric features,1.0,0.9945,6.4
-tfidf_logreg,Word 1-2gram + char 3-5gram TF-IDF,1.0,0.9506,9.7
-linear_svm,Word 1-2gram + char 3-5gram TF-IDF,1.0,0.9504,8.1
-word_logreg,Word 1-2gram TF-IDF,1.0,0.9413,2.9
-char_logreg,Char 3-5gram TF-IDF,0.9983,0.9386,10.1
-naive_bayes,Word 1-2gram counts,0.999,0.8682,1.6

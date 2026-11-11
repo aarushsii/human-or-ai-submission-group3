@@ -37,19 +37,15 @@ def subsample(df, n, seed):
 
 
 def main(output_dir=None, rerun_style=False):
-    """Extend Aarushi's protocol with the missing size and training scores."""
+    """Fit fresh curves; optionally include the style model."""
     output_dir = Path(output_dir) if output_dir is not None else ROOT / "results"
     output_dir.mkdir(parents=True, exist_ok=True)
     train, splits = load_train(), load_splits()
     tr, va = get_split(train, splits, "random_fold")
 
-    # Keep Aarushi's submitted style results as the shared reference. Local
-    # numerical/library differences are recorded in separate reruns, not mixed
-    # with training scores from another fitted model.
-    shared_csv = ROOT / "results/learning_curve.csv"
-    shared = pd.read_csv(shared_csv) if shared_csv.exists() else pd.DataFrame()
+    model_names = MODEL_NAMES if rerun_style else ["tfidf_logreg"]
     rows, details = [], []
-    for name in (MODEL_NAMES if rerun_style else ["tfidf_logreg"]):
+    for name in model_names:
         for n in SIZES:
             seeds = SEEDS if n < len(tr) else [0]  # full set: subsets are identical
             for seed in seeds:
@@ -71,11 +67,6 @@ def main(output_dir=None, rerun_style=False):
                 print(f"{name:<14} n={n:<5} seed={seed} train={train_auc:.6f} val={auc:.6f}", flush=True)
 
     df = pd.DataFrame(rows)
-    if not rerun_style and not shared.empty:
-        preserved = shared.loc[shared["model"].eq("style_gbm"),
-                               ["model", "n_train", "seed", "val_auroc"]].copy()
-        preserved["train_auroc"] = float("nan")
-        df = pd.concat([df, preserved], ignore_index=True)
     out_csv = output_dir / "learning_curve.csv"
     df.to_csv(out_csv, index=False)
 
@@ -83,7 +74,7 @@ def main(output_dir=None, rerun_style=False):
     print("\n", summary.round(4), flush=True)
 
     fig, ax = plt.subplots(figsize=(6, 4))
-    for name in MODEL_NAMES:
+    for name in model_names:
         s = summary.loc[name]
         ax.errorbar(s.index, s["mean"], yerr=s["std"], marker="o", capsize=3, label=name)
     ax.set_xscale("log")
@@ -121,8 +112,7 @@ def main(output_dir=None, rerun_style=False):
     plt.close(fig)
     (output_dir / "learning_curve_details.json").write_text(json.dumps({
         "based_on": "Aarushi's learning_curve.py at 0e09450; unchanged models, seeds and subsample function",
-        "preserved_style_validation_rows": 0 if rerun_style or shared.empty else len(preserved),
-        "style_training_score_policy": "Unavailable for original submitted style fits; never pair local training scores with another run's validation scores.",
+        "models": model_names, "all_scores_fitted_in_this_run": True,
         "seeds": SEEDS, "required_sizes": REQUIRED_SIZES, "runs": details,
         "validation_rows": len(va), "summary": "Mean +/- sample SD; n=8000 is one distinct full-pool fit, not an uncertainty estimate."
     }, indent=2) + "\n")
@@ -133,8 +123,6 @@ def main(output_dir=None, rerun_style=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=ROOT / "results")
-    parser.add_argument("--rerun-style", action="store_true", help="Also refit style; use a separate output directory.")
+    parser.add_argument("--rerun-style", action="store_true", help="Also fit fresh style-model curves.")
     args = parser.parse_args()
-    if args.rerun_style and args.output_dir.resolve() == (ROOT / "results").resolve():
-        parser.error("Use a separate --output-dir for style replication so submitted reference scores are preserved.")
     main(args.output_dir, args.rerun_style)

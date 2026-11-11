@@ -19,6 +19,7 @@ def bucket(n):
 
 
 def main():
+    (ROOT / "results").mkdir(parents=True, exist_ok=True)
     train, splits = load_train(), load_splits()
     order = [str(i) for i in range(6)] + ["6-10", "11+"]
 
