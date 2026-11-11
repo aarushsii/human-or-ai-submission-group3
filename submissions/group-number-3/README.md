@@ -1,7 +1,8 @@
 # Group Number 3 — Human or AI?
 
-**Team:** Aarushi Singh (`as469`), Yuchen Feng (`yf467`), Vivian Li (`NETID`)
+**Team:** Aarushi Singh (`as4639`), Yuchen Feng (`yf467`), Vivian (Yan Ran) Li (`yl4546`)
 **Kaggle team:** Group Number 3
+**PR:** https://github.com/sekhari/human-or-ai-submissions/pull/23
 
 **Final submission:** rank-average ensemble of five models: fine-tuned RoBERTa-base (0.5),
 fine-tuned DistilRoBERTa (0.1), GPT-2 perplexity GBM (0.2), GPT-2 + GPT-2 Medium perplexity/Binoculars
@@ -106,7 +107,7 @@ The earlier frozen-feature study remains in `src/person_b.py`; run stages
 
 ## AI-tool disclosure
 
-We used Claude (Anthropic) to write most of the Python scripts (data splits, model definitions,
+We used Claude (Anthropic) and Codex (OpenAI) to write most of the Python scripts (data splits, model definitions,
 robustness and error-analysis scripts, transformer fine-tuning, perplexity features, ensembling),
 to debug git and environment problems, to explain results and to draft report text. Team members
 ran every experiment, checked the outputs against the logged results, read the misclassified
